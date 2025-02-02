@@ -1,4 +1,4 @@
-Here’s a step-by-step guide to install and run **BURAI** (version 1.3.1) on **Windows** and **Linux**, including Java setup:
+Step-by-step guide to install and run **BURAI** (version 1.3.1) on **Windows** and **Linux**, including Java setup:
 
 ---
 
