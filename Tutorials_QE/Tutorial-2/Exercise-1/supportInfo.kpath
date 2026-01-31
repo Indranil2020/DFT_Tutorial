@@ -1,0 +1,54 @@
+================================================================
+    * * * S U P P O R T I N G    I N F O R M A T I O N * * *    
+================================================================
+
+BEWARE: the conversion of selected k-point coordinates to format
+        suitable for the PWscf is a new and untested feature.
+
+        !!! USE AT YOUR OWN RISK !!!
+        !!! PLEASE CHECK BELOW DATA FOR CONSISTENCY !!!
+
+Number of selected k-points: 2
+
+**ORIGINAL DATASET**
+--------------------
+THE FOLLOWING k-POINT WERE SELECTED:
+(crystal coordinates with respect to RECIPROCAL-PRIMITIVE vectors)
+
+      0.50000      0.75000      0.25000     W
+      0.00000      0.00000      0.00000     GAMMA
+
+**REPRODUCED(TRANSFORMED) DATASET for PWscf**
+----------------------------------------------
+IMPORTANT:
+Check if the data presented below are consistent with the data from ORIGINAL DATASET !!!
+
+   Selected k-points in CARTESIAN coordinates:
+     -0.00000    0.09209    0.18418    W    
+      0.00000    0.00000    0.00000    GAMMA
+ 
+   Selected k-points in crystal coordinates:
+   (with respect to RECIPROCAL-PRIMITIVE vectors)
+      0.50000    0.75000    0.25000    W    
+      0.00000    0.00000    0.00000    GAMMA
+ 
+   Selected k-points in crystal coordinates:
+   (with respect to RECIPROCAL-CONVENTIONAL vectors)
+     -0.00000    0.50000    1.00000    W    
+      0.00000    0.00000    0.00000    GAMMA
+
+The content of the generated PWscf K_POINTS file is the following:
+----------------------------------------------------------------
+ K_POINTS crystal
+          10
+        0.5000000000    0.7500000000    0.2500000000    1.0
+        0.4444444444    0.6666666667    0.2222222222    1.0
+        0.3888888889    0.5833333333    0.1944444444    1.0
+        0.3333333333    0.5000000000    0.1666666667    1.0
+        0.2777777778    0.4166666667    0.1388888889    1.0
+        0.2222222222    0.3333333333    0.1111111111    1.0
+        0.1666666667    0.2500000000    0.0833333333    1.0
+        0.1111111111    0.1666666667    0.0555555556    1.0
+        0.0555555556    0.0833333333    0.0277777778    1.0
+        0.0000000000    0.0000000000    0.0000000000    1.0
+

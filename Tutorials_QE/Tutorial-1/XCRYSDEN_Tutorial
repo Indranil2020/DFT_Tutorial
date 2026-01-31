@@ -1,0 +1,123 @@
+XCRYSDEN Tutorial
+
+In this excercise, you will use "xcrysden" to visualize some simple structures.
+
+We will use input files that are of the format required for pwscf, since we will use the pwscf code in comming tutorials. However, we will only give input those lines that are required to specify the crystal structure, we will not input stuff is required for the pwscf calculation (e.g., energy cut-offs).
+
+First of all we are going to explain the input variables:
+
+	There are three parts we need to concentrate into input file :
+		-- SYSTEM
+		-- CELL_PARAMETERS
+		-- ATOMIC_POSITIONS {type}
+
+1. SYSTEM
+	Ii gives the information about the type of Bravis lattice, the lengths and angles between primitive lattice vectors, the number of atoms, and number of atom types, as follows:
+
+		-- ibrav : Which of the 14 Bravis lattice types your crystal structure has. Convention is as follows:
+			ibrav = 0 ,	! No Bravis lattice type specified, instead primitive lattice vectors given explicitly
+                        ibrav = 1 ,	! Simple Cubic (sc)
+                        ibrav = 2 ,	! Face Centered Cubic (fcc)
+                        ibrav = 3 ,	! Body Centered Cubic (bcc)
+                        ibrav = 4 ,	! Hexagonal or Trigonal P
+                        ibrav = 5 ,	! Trigonal R
+                        ibrav = 6 ,	! Simple Tetragonal
+                        ibrav = 7 ,	! Body Centered Tetragonal
+                        ibrav = 8 ,	! Orthorhombic
+                        ibrav = 9 ,	! Base Centered Orthorhombic
+                        ibrav = 10 ,	! Face Centered Orthorhombic
+                        ibrav = 11 ,	! Body-Centered Orthorhombic
+                        ibrav = 12 ,	! Monoclinic
+                        ibrav = 13 ,	! Base Centered Monoclinic
+                        ibrav = 14 ,	! Triclinic
+
+			NOTE : In todays excercise we use ONLY ibrav =  1, 2, 3, 4
+
+
+		-- celldm(1), celldm(2), celldm(3), celldm(4), celldm(5), celld(6)
+			These give the information about the lengths of the primitive latiice vectors and the angles between them.
+			No need to define all of these six quantities always. The higher the symmetry of the structure, the fewer of these need to be specified.
+				--> celldm(1) : length of the first primitive lattice vector. This is of type a=(celldm(1),0,0)
+						Note that lengths are always specified in units of bohr = 0.52918 Angstrom.
+						If you have a cubic structure, you need to specify only celldm(1), none of them others.
+						 Important: for bcc and fcc structures, the value of celldm(1) is NOT the length of the primitive lattice vector but the side of the conventional cubic cell!
+						 If you have any of the orthorhombic, monoclinic or triclinic structures, then celldm(2) = b/a.
+						 If you have any of the hexagonal, tetragonal, orthorhombic, monoclinic or triclinic structures, then celldm(3)=c/a
+						 If you have trigonal R, monoclinic or triclinic, celldm(4) = cos(angle between b and c)
+						 If you have triclinic, celldm(5)= cos(angle between a and c), celldm(6)=cos(angle between a and b).
+				[Note: Since in today's exercises we will use ONLY ibrav = 1, 2, 3, 4 we will only need celldm(1) & celldm(3) .]
+
+
+
+		-- nat : Total number of atoms in the unit cell chosen.
+		-- btype : Number of different atom types.
+
+
+2. CELL_PARAMETERS : specify this ONLY if ibrav = 0. If the primitive lattice vectors are a, b and c, then give:
+
+	ax ay az
+	bx by bz
+	cx cy cz
+NOTE : 	These are specified in units of celldm(1).
+	In today's tutorials we are not going to use CELL_PARAMETERS.
+
+
+
+3. ATOMIC_POSITIONS {type} : here type indicates what coordinate system and what units have specified the atomic positions:
+		-- alat : in units of cell(1) & Cartesian (default)
+		-- bohr : in units of bohr & Cartesian
+		-- crystal : in units of a, b and c (primitive lattice vectors)
+		-- angstrom : in units of Angstrom, & cartesian
+
+NOTE : Input nat rows of data in ATOMIC_POTIONS, each row will contain the elements name and then the three coordinates specifying the position of that particular atom.
+
+eg: If there are 2 molybdenum atoms and they are at (0.00, 0.00, 0.00) and (a/2, a/2, a/2), write 
+	Mo 0.0 0.0 0.0
+	Mo 0.5 0.5 0.5
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Please go into the XCRYSDEN folder and look into the files:
+        ----> CO2.in : This is a sample input file, for CO2 molecule containing two Oxygen atoms and one Carbon atom. The simple cubic lattice is specified by setting ibrav = 1.
+	----> Silicon.in : This is a sample input file, for primitive Si unit cell containing two Silicon atoms. The face centered cubic lattice is specified by setting ibrav = 2.
+	----> GaAs.in : This is a sample input file, for primitive GaAs unit cell containing one Gallium atoms and one Arsenic atom. The face centered cubic lattice is specified by setting ibrav = 2.
+        ----> Na.in : This is a sample input file, for Sodium unit cell containing one Na atom. The body centered cubic lattice is specified by setting ibrav = 3.
+	----> Graphene.in : This is a sample input file, for graphene unit cell containing two Carbon atoms. The hexagonal lattice is specified by setting ibrav = 4.
+	----> Graphite.in : This is a sample input file, for graphite unit cell containing four carbon atoms. The hexagonal lattice is specified by setting ibrav = 4.
+
+1. Co2 Molecule : Gaseous carbon dioxide consists of molecules of CO2, and does not have repeating structure. However, we can make it "artificially periodic" by using a supercell.
+Carbon dioxide is a liner molecule, in which the C-O distances are 1.185 angstrom.
+
+	--- Open the structure of Co2 using xcrysden : 
+		xcrysden --pwi Co2.in &
+			- Play around with xcrysden and rotate the view.
+			- Various buttons under Display:
+				~ label the atoms
+				~ draw the coordinate system
+				~ draw the boundries of unit cell
+				~ draw Wigner-Seitz unit cell
+			- Going to modufy and play with 'Number of Units drawn', show the atoms in more than one unit cell.
+			- Try to find the C-O distence,use the 'Distance' button, click on first one atom and then the second atom, then click 'Done'. Does it agree with what you expected?
+			- How much is the "vacuum" distance that seprates an O atom in one molecule from an O atom in another molecule?
+
+2. Silicon crystal structure : The Silicon premetive unit cell have Dimond lattice type ibrav=2, with contains two atoms at (0.00, 0.00, 0.00) and (0.25, 0.25, 0.25). The lattice constant is 5.4309 Angstrom or 10.2629 Bhors.
+
+	--- Now try to make an input file for silicon. Save it as Si.in
+	--- View the structure using
+			xcrysden --pwi Si.in
+	--- Check out some bond angles (by using 'Angle' button).
+	--- What is the coordination number of each atom?
+	--- What is the nearest-neighbor distance?
+
+Similarly we can define the other structures given in the XCRYSDEN directory.
+
+		xcrysden --pwi GaAs.in
+		xcrysden --pwi Graphene.in
+		xcrysden --pwi Graphite.in
+		xcrysden --pwi Na.in
+
+Aditional Optional Exercise : Do then in your spare time so that you become an xcrysden expert!
+
+	-- Make an input file for, and view the structure of, Sodium Chloride.
+	-- Make an input file for, and view the structure of, Methane.
+	-- Make an input file for, and view the structure of, Magnesium which is not a cubit structure.

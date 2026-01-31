@@ -1,0 +1,124 @@
+INSTRUCTIONS FOR TUTORIAL-2 
+
+                                 **********EXERCISE-1**********
+
+STEP-0 : Verify for Quantum Espresso executables and Pseudo Potentials
+
+	-- We have espresso-6.1 version on our server.
+	-- Verify the pw.x by using the command:
+		which pw.x         ! (Output will come looks like /opt/software/espresso-6.1/qe-6.1/bin/pw.x, if any problem please contact to our team)
+	-- All the pseudo-potentials are aailable to your home directory under upf_files folder. Please verify it.
+		Example : If your user name is guest1, then your pseudo_dir = '/opt/home/guest1/upf_files' ,
+
+
+STEP-1 : Go to the directory Tutorial-2/Exercise-1
+	---> You will see the following files :
+		Si.sample.in -- This is a sample input file, for a primitive Si cell containing 2 atoms.
+		Si.ecutwfc.sh   -- This is a sample shell script that you can use to automate the process or you can go manually, all the convergence input files you can find in the Reference folder. Alternatively, you can edit Si.sample.in yourself and run the calculations.
+
+
+STEP-2 : Open and read the sample file Si.sample.in
+
+	---> Note that in the &control namelist, we have specified that we want to run an scf calculation.
+	---> Silicon has the diamond structure. Note that we are using a (primitive) unit cell that corresponds to an fcc lattice, with 2 Si atoms in the atomic basis.
+	---> Notice the values given for ibrav, nat, ntyp and ATOMIC_POSITIONS.
+	---> In this file, the lattice constant celldm(1) has been set equal to 10.2623466921 bohr = 5.43062 Å, which is the experimental value.
+	---> A 6×6×6 shifted Monkhorst-Pack k-point mesh has been used.
+	---> The plane-wave cut-off for wavefunctions, ecutwfc, has been set to 35 Ry.
+	---> Since we are using PAW pseudopotentials, so we take ecutrho = 4*ecutwfc = 140 Ry. It is a kinetic energy cuoff and for PAW it depends on augumentation charge. The use of gradient-corrected functional, especially in cells with vacuum, or for pseudopotential without non-linear core correction, usually requires an higher values of ecutrho to be accurately converged (8 times or upto 12 times of ecutwfc).
+
+
+Step-3 : Use Xcrysden to view the structure in the sample input file to your local computer.
+
+	---> Go to Desktop/EESTER2018/Tutorial-2/Exercise-1
+	---> Run the command
+		xcrysden --pwi Si.sample.in
+	---> Take a look.
+
+STEP-4 : Run an scf calculation at our server
+
+	---> Go back to the server in Tutorial-2/Exercise-1
+	---> Run the command:
+		Syantax to run an scf : pw.x < input_file > output_file
+		For this particular case : pw.x < Si.sample.in |tee Si.sample.out
+
+
+STEP-5 : Read the output, and answer the following questions:
+
+	---> Was symmetry used to reduce the number of k-points from 6×6×6=216?
+	---> How many scf iterations were performed before convergence was achieved?
+	---> What is the final (converged) value for the total energy? 
+		(Note: you can find this by looking for an exclamation mark in the output file). For example, you can type:
+
+			grep ! Si.sample.out
+
+	---> Note: If you set verbosity = 'high' in the &control namelist, you will get additional information in your output file, e.g., about symmetries and occupation numbers.
+
+
+STEP-6 : Now do convergence tests with respect to plane-wave cut-off:
+
+	---> Find out how the total energy changes when you vary the plane wave cut-off ecutwfc between 10 and 40 Ry, in steps of 5 Ry. You can either do this by copying the sample file Si.sample.in to other input files and editing them, and running pw.x using each of these input files in turn, or by running the sample shell script
+		sh Si.ecutwfc.sh
+	---> Now make a data file at your local machine (e.g., you can call it etot_vs_ecut.dat) that contains the value of ecutwfc in the first column, and total energy in the second column.
+	---> Remember that you can easily find the values of the total energy by searching for an exclamation mark, e.g., using the grep command.
+	---> Plot a graph of this data using your favorite plotting program (e.g., xmgrace).
+	---> Does the total energy decrease monotonically as ecutwfc is increased?
+	---> What value of ecutwfc are you 'happy' with?
+
+
+
+                                 **********EXERCISE-2**********
+
+STEP-7 : Now examine convergence with respect to Brillouin zone sampling:
+
+	---> Fix the value of ecutwfc at whatever value you have decided is good enough. (Remember: differences in energy matters rather than the absolute value of the total energy!) I chose ecutwfc to be 35Ry, but you can make whatever choice you want!
+	---> Let the lattice constant celldm(1) remain at the experimental value.
+	---> Vary the Monkhorst-Pack grid parameters nk1, nk2 and nk3.
+	---> You can do this either by manually editing input files, or by modifying the script
+		Si.sample_K.sh
+	---> Use nk1=nk2=nk3= 4, 5, 6, 7, 8.
+	---> Leave the offset at k1=k2=k3 = 1.
+	---> Run pw.x for each of the five input files you have made (either one by one, or using the shell script).
+	---> Remember: don't overwrite output files before you extract data from them!
+	---> Assemble a data file that contains how the total energy varies with nk1=nk2=nk3. The first column should contain the value of nk1 (or, if you prefer, the number of k-points generated and used), and the second column should contain the value of the total energy.
+	---> Plot a graph of this data. Do you think that the total energy is converging as you increase the number of k-points?
+	---> Do you think it was a good choice to take nk1=nk2=nk3? Why?
+	---> Is the convergence with respect to the number of k-points monotonic? (Note that it need not necessarily be so!)
+
+
+
+
+                                 **********EXERCISE-3**********
+
+STEP-8 : Now obtain the equilibrium lattice constant of Si:
+
+	---> Fix values of ecutwfc and nk1=nk2=nk3. I chose ecutwfc = 35Ry and nk1=nk2=nk3=6, but you can choose other values if you feel that they are more appropriate.
+	---> Make input files in which you vary the lattice constant, i.e., celldm(1), from 9.8 to 11.0 bohr, in steps of 0.2 bohr. (Again, you can do this by hand or modify the shell script).
+	---> Run these seven scf calculations.
+	---> Assemble the results for the dependence of total energy on lattice constant in a data file, e.g., one called etot_vs_alat.dat (2 columns, the first containing the lattice constant in bohr, and the second containing total energy in Ry).
+	---> Plot this data.
+	---> By looking at this data, do you think that your result for the equilibrium lattice constant is larger or smaller than experiment? Why is there a discrepancy between the theoretical and experimental values?
+	---> Is the energy symmetric about the minimum value? Would you expect it to be so?
+
+
+	---> Fit this data to an equation of state by running
+		ev.x
+	---> When you run this, you will be prompted to supply:
+			· The unit of lattice parameter (either atomic unit Bohr or Angstorm)
+			· The type of Bravais lattice (sc/fcc/bcc)
+			· Which particular equation of state you want to use: (use the 2nd Order Birch eq.)
+			· The name of the input file containing the data of lattice constant and total energy
+			· The name of the output file where you want the results of the fitting procedure
+			· Look at the output file (the name you supplied in the previous step):
+			· From the fit, what are the values of the equilibrium lattice constant a0 and bulk modulus k0? (The experimental value for the bulk modulus is 101.97 GPa = 1019.7 kbar ). Look at the output file
+			· If there is a discrepancy between experimental and theoretical values, can you understand where this arises from?
+			· Can you tell whether the quality of fit is good or poor?
+
+
+Some optional extra stuff :
+
+If you finished all of the above stuff and you still have some time left, you can (if you choose) do other things, e.g.:
+
+· Obtain graphs of total energy vs. lattice constant at some very low values of ecutwfc.
+
+· Do you notice any change in the shape or nature of the curve? If yes, do you understand why?

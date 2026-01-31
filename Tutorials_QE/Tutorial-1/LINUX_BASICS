@@ -1,0 +1,71 @@
+INSTRUCTIONS FOR TUTORIAL 1 (EESTER-2018)
+
+
+1 . LINUX Basics:
+
+
+Useful linux commands:
+
+	i. To copy a file 
+		Command		:	"cp"
+		Syntax		:	cp <file1> <file2>
+		Example		:	cp A B (it copies file A to file B)
+
+	ii. To move a file
+		Command		:	"mv"
+		Syntax		:	mv <file1> <file2>
+		Example		:	mv A B (it moves a file A to B. To remane a file we can use mv command)
+
+	iii. To make a directory or folder
+		Command		:	"mkdir"
+		Syantax		:	mkdir <directory_name>
+		Example		:	mkdir C (it will make a directory name as "C")
+
+	iv. To enter into a directory
+		Command		:	"cd"
+		Syntax		:	cd <directory_name>
+		Example		:	cd C
+
+	v. Change the working directory or to exit from a directory to one before the current directory
+		Command		:	"cd .." ! please beaware about the space betweed cd & ..
+		Syntax		:	cd ..
+
+	vi. Print the present working directory
+		Command		:	"pwd"
+		Syntax		:	pwd
+
+	vii. List the names of the files and the sub-directories containws in directory C (suppose)
+		Command		:	"ls"
+		Syntax		:	ls 	OR	ls <directory_name>
+		Example		:	ls	OR	ls C (first example will give you list in the present working directory 
+							and second one will give you the information about the sub-directory 
+							containd in PWD here C is taken as an example)
+
+	viii. Reading and editing a file ---> there are few commands to do it as vi, vim & gedit
+		Command		:	"vi"	OR	"vim"	OR	"gedit"
+		Syntax		:	vi <file_name>
+					vim <file_name>
+					gedit <file_name>
+		Example		:	vim A
+		Description	:	vim A (it opens a file A for reading and/or editing)
+					Shift+i to go into INSERT mode (check for --INSER-- at the bottom of the file)
+					Shift+r to go into REPLACE mode (check for --REPLACE-- at the bottom of the file)
+					Esc to go into READ-ONLY mode
+					To save your file : Esc (First go into READ-ONLY mode) and then :W (to save)
+					To quit your file : Esc (First go into READ-ONLY mode) and then :q (to quit)
+	ix. To delete a file/Folder
+		Command		:	"rm"		for file
+					"rm -rf"	for folder
+		Syntax		:	rm <file_name>
+					rm -rf <directory_name>
+		Example		:	rm A
+					rm -rf C
+
+
+
+SHORT EXERCISE on LINUX BASICS
+
+	Step 1	:	Go to Tutorial1
+	Step 2	:	Create a directory Linux in Tutorial1/
+	Step 3	:	Create a file DATA.dat with numbers 1 to 5 in one coloumn and their squares in adjecnt coloumn in directory Tutorial1. Save and Quit
+	Step 4	:	Copy the DATA.dat into DATA-new.dat. Check the data in both the files.

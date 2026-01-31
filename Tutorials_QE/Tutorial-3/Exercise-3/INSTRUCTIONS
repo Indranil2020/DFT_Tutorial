@@ -1,0 +1,63 @@
+NSTRUCTIONS FOR TUTORIAL-2 
+
+In this exercise, we will examine one of the 'post-processing' that you can do once you have run your scf calculations. In the previous exercise, there was only one output quantity that we worked with... the total energy. Here we will learn to plot the band structure of materials. We will continue to work with Si, which was the subject of exercise1.
+
+                                 **********EXERCISE-3**********
+
+STEP-1 : Go to the directory Tutorial-3/Exercise-3
+
+	---> You will see the following files :
+		-- Si.scf.in : Input file for scf calculation.
+		-- Si.bands.in : Input file to calculate the eigen values in given K-path.
+		-- bands.in : Input file to collect bands.
+		-- Si.plotband.in : Input file to plot the band structure.
+
+
+STEP-2 : Self-consistent (scf) calculation for Si
+
+	---> Open and read the sample file Si.scf.in
+	---> We chose values of ecutwfc, nk1, nk2 and nk3 based upon results for Tutorial-2. You may choose the same values as these, or substitute your values.
+	---> Note that, in &SYSTEM namelist, we have now added a parameter called nbnd = 8 to specify the number of bands to be computed. Note that for a 2-atom Si cell, we have 8 valence electrons and therefore only 4 occupied bands, however, we are going to compute some extra (empty) bands.
+	---> Run the scf calculation:
+		pw.x < Si.scf.in > Si.scf.out
+
+##############################
+BAND STRUCTURE CALCULATION   #
+##############################
+
+
+STEP-3 : Calculations for bands
+
+	---> Copy Si.scf.in to Si.band.in
+	---> Edit Si.band.in to perform non-self consistent calculations that will be used to obtain band structure, by setting calculation='bands'.
+	---> Define the K_POINTS card to specify the path along symmetry directions in Brillouin zone. In order to this and also remove the line “6 6 6 1 1 1”.
+	---> Run a 'bands' calculation:
+			pw.x < Si.band.in > Si.band.out
+	---> What differences do you see between the output file you obtain here, and the output file that you obtained from your scf calculation?
+
+
+STEP-4 :  Collect band results for plotting
+
+	---> Open bands.in
+	---> Note that you have to use the same prefix in this calculation as was used in scf AND bands calculations.
+	---> The flag filband defines the name of the file in which bands data is to be stored.
+	---> Run:
+		bands.x < bands.in > bands.out
+	---> Have a look at bands.out and bands.dat and note the minimum and maximum energy eigenvalues at different k-points.
+
+
+STEP-5 : Get the data in a format to plot
+
+	---> Open Si.plotband.in
+	---> The first line contains
+		(a) input file (= bands.dat obtained in the earlier step).
+		(b) Emin and Emax (= -6.00 and 10.00).
+		(c) output file in xmgrace format (bands.xmgr)
+		(d) output file in ps format (bands.ps)
+		(e) Fermi energy (= 6.5139 eV)
+		(f) deltaE and reference energy (= 1.00 6.5139)
+	---> Run the plotting program:
+		plotband.x < Si.plotband.in > Si.plotband.out
+
+
+	---> You can view the plotted band structure written in ps format (bands.ps) using a postscript viewer (e.g., evince) or simply download the file onto your local machine and open the file. Alternatively, you can use gnuplot also which will use band.gnu file or you can use band.xmgrace* files to plot in xmgrace after downloading into your local machine.

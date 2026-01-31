@@ -1,0 +1,7 @@
+ &DOS
+    prefix  = 'Si_day3'
+    Emin = -6.00, Emax = 16.00
+    DeltaE = 0.001,
+    fildos = 'dos.dat'
+    outdir = './tmp/'
+/

@@ -1,0 +1,10 @@
+&SYSTEM
+ibrav = 4,
+celldm(1) = 4.650993,
+celldm(3) = 2.725906,
+nat = 2, 
+ntyp = 1,
+/
+ATOMIC_POSITIONS {crystal}
+C 0.00 0.00 0.00
+C 0.33 0.66 0.00

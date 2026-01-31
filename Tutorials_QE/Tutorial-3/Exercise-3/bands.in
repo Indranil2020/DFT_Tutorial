@@ -1,0 +1,5 @@
+ &bands
+    prefix  = 'SCF'
+    filband = 'bands.dat'
+    outdir = './'
+ /

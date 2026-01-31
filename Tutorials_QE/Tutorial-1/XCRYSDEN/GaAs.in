@@ -1,0 +1,9 @@
+&SYSTEM
+ibrav = 2,
+celldm(1) = 10.683944,
+nat = 2, 
+ntyp = 2,
+/
+ATOMIC_POSITIONS {crystal}
+Ga 0.00 0.00 0.00
+As 0.25 0.25 0.25

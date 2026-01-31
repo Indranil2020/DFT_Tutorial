@@ -1,0 +1,46 @@
+This tutorial covers the basic 2D plotting techniques using XMGRACE.
+
+XMGRACE requires an input file, which can contain several coloumns.
+
+EXERCISE 1 :
+
+	The data file Example00.dat contains the data of
+	(a). 'Lattice Constant (Angstroms)' of metal X in coloumn1,
+	(b). 'Total Energy (Ry)' of metal X in Coloumn 2.
+
+	Ploting
+	Follow the commands to open the xmgrace
+		--$ xmgrace
+		-- Go to Data/Import/ASCII/Example00.dat
+		-- load as Single Set.
+	Label both x and y axis.
+		-- Go to Plot/SetAppearence or Double click on the particular axis. Change the axis lables and scale.
+	Incorporate the legendes in the plot.
+		-- Go to Plot/SetAppearance or Double click on the body of the plot. Write the legends in the Legends/Sstrcing
+	Change the lines atyles and symbol types.
+		-- Plot/SetAppearance or Double click on the body of the plot.
+
+
+Exercise 2 : 
+	
+	The data file Example01.dat contains data for
+	(a). 'Lattice Constant (Angstrom)' of metal X in Coloumn1,
+	(b). 'Pressure' in Coloumn2,
+	(c). The error in the total energy in Coloumn3.
+
+	Plot to see how Pressure varies with the lattice constant with the error bars.
+		--$ xmgrace
+		-- Go to Data/Import/ASCII/Example01.dat
+		-- Load as Block Data.
+		-- Choose 1st and 2nd coloumns of the file.
+		-- Choose Set Type: XY
+		-- X from coloumn 1
+		-- Y from coloumn 2
+	
+
+	Assuming the 3rd column contains the error in the data in the 2nd column, plot 1st and 2nd columns of the file with the error bars.
+		-- Choose Set Type:XYDY
+		-- X from coloumn 1
+		-- Y from coloumn 2
+		-- DY (Y1) from coloumn 3
+		-- Label x and y axis, incorporate legends, change the line style and symbol types.

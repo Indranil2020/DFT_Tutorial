@@ -1,0 +1,11 @@
+
+&SYSTEM
+  ibrav=3,
+  celldm(1)=8.1080589101,
+  nat=1,
+  ntyp=1,
+/
+
+ATOMIC_POSITIONS {crystal}
+  Na   0.00   1.00   0.00
+

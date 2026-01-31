@@ -1,0 +1,10 @@
+&SYSTEM
+ibrav = 1,
+celldm(1) = 20.0,
+nat = 3, 
+ntyp = 2,
+/
+ATOMIC_POSITIONS {angstrom}
+C 1.185 0.0 0.0
+O 2.370 0.0 0.0
+O 0.0 0.0 0.0

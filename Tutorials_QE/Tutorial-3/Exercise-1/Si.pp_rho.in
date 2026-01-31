@@ -1,0 +1,12 @@
+&inputpp
+    prefix  = 'SCF'
+    plot_num = 0
+    filplot = 'Si.charge'
+    outdir = './'
+ /
+&plot
+    filepp(1) = 'Si.charge'
+    iflag = 3
+    output_format = 5
+    fileout = 'Si.charge.3D.xsf'
+ /

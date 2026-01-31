@@ -1,0 +1,25 @@
+INSTRUCTIONS FOR TUTORIAL-2 
+
+In this exercise, we will see how to run calculations on unit cells larger than the primitive unit cell, also called supercell calculations.
+
+                                 **********EXERCISE-2**********
+
+STEP-1 : Go to Exercise-2
+
+	---> You will see the following files
+		-- Si.supercell_1.in : This is an input file for scf calculation of the Si srystal in the conventional cubic super cell.
+		-- Si.supercell_2.in : This is an input file for scf calculation of the Si crystal in a tetragonal super cell.
+
+
+STEP-2 : Super cell calculations
+
+	---> We will use two input files:
+		1. Si.supercell_1.in makes use of the conventional cubic cell, containing 8 atoms. Read this file, and notice the ways in which it differs from the input files you have been using up to now. Especially note the values used for ibrav, nat and the atomic coordinates.
+			-- The lattice constant has been set equal to the computed value of 10.2629136099 Bohr.
+			-- It uses an unshifted k-point mesh of 6×6×6.
+		2. Si.supercell_2.in makes use of a tetragonal super cell, which is twice as long in the z-direction as it is in the other two directions. It contains 16 atoms. Read it carefully!
+			-- Since it is twice as long along z, we will halve the number of k-points along kz.
+			-- So we will use an unshifted k-point mesh of 6×6×3.
+	---> Run pw.x using both input files (remember to use different names for the output files in the two cases!)
+	---> Is the total energy per atom the same in the two cases or different? What is the expected answer?
+	---> Which calculation took longer? Note that in the first case we had fewer atoms but more k-points, while in the second case, we had more atoms but fewer k-points. The cells and k-points were chosen such that the second calculation 'folds' exactly into the first one.

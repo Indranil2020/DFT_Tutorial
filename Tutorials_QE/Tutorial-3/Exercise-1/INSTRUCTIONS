@@ -1,0 +1,113 @@
+INSTRUCTIONS FOR TUTORIAL-2 
+
+In this tutorial, we will examine some of the 'post-processing' that you can do after running scf calculations. We will see that we can extract data, from the files produced during PW calculations, such as, charge densities, and eigenvalues (we used these eigen values to get band structure plots and to obtain density of states).
+
+                                 **********EXERCISE-1**********
+STEP-1 : Go to the directory Tutorial-3/Exercise-1
+
+	---> you will see the following files : 
+		-- Si.scf.in : Input file for scf run.
+		-- Si.pp_rho.in : This is an input file to extract charge density using post-processing, and writing the data into a format to give a 3D charge density plot that be read by xcrysden.
+		-- Si.pp_rho.2D.in : This input file will write the extracted charge density data into a format to give a 2D charge density plot that be read by xcrysden.
+		-- dos.in : This is an input file to calculate density of states.
+
+STEP-2 : Self-consistent (scf) calculations for Si
+
+	---> Open and read the sample file Si.scf.in We chose values of celldm(1) , ecutwfc, nk1, nk2 and nk3 based upon your Tutorial-2 results. You may choose the same values as these, or substitute your values.
+	---> Run the scf calculation:
+		pw.x < Si.scf.in > Si.scf.out
+
+##############################
+(A). Charge Density for Si :
+###############################
+
+STEP-3 : Post-processing to extract charge density and to obtain a 3D charge density plot
+
+	---> Open Si.pp_rho.in
+	---> The post processing code perfoms two steps:
+		1. reads output file produced by pw.x, extracts and calculates the desired quantity.
+		2. plots the extracted quantity in the desired format 
+			
+
+&inputpp (does Step 1)
+	---> Make sure that the prefix is the same as the prefix used in the scf calculation.
+	---> plotnum = 0 indicates that the quantity to be extracted is the charge density (for other possible options, see INPUT_PP.* in the directory Doc in the espresso package or on internet by typing pp.x in google).
+	---> filplot = 'Si.charge', is the file in which the extracted charge density is saved.
+
+
+&plot (does Step 2)
+
+	---> The data saved in filepp(1) = 'Si.charge' is written in the format that can be read by the visualization tool xcrysden, in fileout='Si.charge.3D.xsf'.
+	---> iflag specifies the dimensionality for the plot (for a 3D plot, iflag = 3)
+	---> output_format specifies the format into which the extracted data is to be written. (for a 3D plot, to be read by xcrysden, output_format = 5)
+	---> Run post-processing code:
+		pp.x < Si.pp_rho.in > Si.pp_rho.out
+	---> Download the file Si.charge.3D.xsf from server to your local computer by using Filezilla.
+		-- Open filezila (either from side bar in ubutu or use terminal and execute command filezilla).
+		-- Filezilla window will pop-up:
+			Enter the Host	: 172.16.18.161
+			Username	: guest1 OR whatever username has been assigned.
+			Password	: same as user name for e.g. guest1
+			Port		: 22
+		-- Click on Quickconnect
+		-- you will see two partitions, the right is for server and right side is for local machine.
+		-- please go to your tutorial folder by giving path in Remote site: /opt/home/<your user name>/Workshop/<your name whatever you gave during login.sh>/EESTER2018/Tutorial-3/Excercise-1
+			for example : I did login with login.sh myname under guest1 user, so my path will look like:
+			
+					/opt/home/guest1/Workshop/myname/EESTER2018/Tutorial-3/Excercise-1
+
+		-- Please copy the file by double click on it and it will copy to you local machine. Please find the path of copy location from local site: bar at left partition of the window.
+	
+
+	---> Go to the directory in your local where you copied you Si.charge.3D.xsf file
+	---> Use xcrysden to view the 3D charge density of Si.
+		xcrysden --xsf Si.charge.3D.xsf
+	---> Click on Tools → Data Grid, and then OK. Put in different values for the isovalue, and see the pretty charge density picture!
+
+1. Where is the charge density located?
+
+2. Can you make out the nature of chemical bonding in Si crystal from what you see?
+
+
+
+STEP-4 : Using extracted charge density data to obtain a 2D charge density plot
+
+	---> Open Si.pp_rho.2D.in
+	---> You do not need &inputpp, as you have already extracted the charge density data into the file Si.charge. So, leave it blank.
+	
+		&plot
+
+	---> This time, the data saved in filepp(1) = 'Si.charge' is written into a 2D format that can be read by xcrysden, into fileout='Si.charge.2D.xsf'.
+	---> iflag specifies the dimensionality for the plot (for a 2D plot, iflag = 2)
+	---> output_format specifies the format into which the extracted data is to be written. (for a 2D plot, to be read by xcrysden, output_format = 3)
+	---> Run post-processing code:
+		pp.x < Si.pp_rho.2D.in > Si.pp_rho.2D.out
+	---> Again download the file to your local machine.
+	---> Use xcrysden to view the 2D charge density of Si.
+		xcrysden --xsf Si.charge.2D.xsf
+
+	---> Click on Tools → Data Grid, and then OK.
+	---> Experiment with color, with and without isolines.
+
+
+################################
+(B). Density of States for Si :
+################################
+
+
+STEP-6 : DOS Calculations
+
+	---> Run nscf calculation.
+	---> open nscf.in, here the calculation we changed to nscf, and to plot the DOS we use tetrahedra method for occupation.
+	---> Look at the K-points as compare to scf it contains large number of K-points
+	---> Run nscf calculation by using same prefix as in scf
+		pw.x < nscf.in |tee nscf.out
+
+	---> Open dos.in
+	---> Make sure that it has the same prefix as used in the nscf calculations.
+	---> Check the energy range of the eigen values obtained in the nscf output file nscf.out. Emin and Emax gives this range.
+	---> The DOS results are written in fildos = dos.dat
+	---> Run density of states calculations:
+		dos.x < dos.in > dos.out
+	---> Have a look at dos.out and the data file dos.dat.
+	---> Plot dos.dat to see the DOS plot (you can use gnuplot or xmgrace programs).

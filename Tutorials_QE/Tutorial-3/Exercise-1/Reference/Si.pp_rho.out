@@ -1,0 +1,46 @@
+
+     Program POST-PROC v.6.1 (svn rev. 13369) starts on  9Sep2018 at  9:35: 5 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI), running on     1 processors
+
+   Info: using nr1, nr2, nr3 values from input
+
+   Info: using nr1, nr2, nr3 values from input
+
+     IMPORTANT: XC functional enforced from input :
+     Exchange-correlation      =  SLA  PW   PBX  PBC ( 1  4  3  4 0 0)
+     Any further DFT definition will be discarded
+     Please, verify this is what you really want
+
+               file Si.pbe-n-kjpaw_psl.0.1.UPF: wavefunction(s)  3S renormalized
+ 
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum         511     511    163                 7631     7631    1411
+ 
+
+     Check: negative/imaginary core charge=   -0.000003    0.000000
+
+     Calling punch_plot, plot_num =   0
+     Writing data to file  Si.charge
+     Reading data from file  Si.charge
+
+     Writing data to be plotted to file Si.charge.3D.xsf
+     Plot Type: 3D                     Output format: XCrySDen     
+ 
+     POST-PROC    :     0.68s CPU         0.75s WALL
+
+ 
+   This run was terminated on:   9:35: 6   9Sep2018            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=

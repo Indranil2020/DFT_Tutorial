@@ -1,0 +1,44 @@
+
+&CONTROL
+  		calculation = 'scf' ,
+  		     outdir = './' ,
+  		     prefix = 'SCF' ,
+  		 pseudo_dir = '/opt/home/guest1/upf_files' ,
+  		  verbosity = 'low' ,  ! You can use high also to get more informations in the output file.
+	      etot_conv_thr = 1.0D-4 ,
+/
+
+&SYSTEM
+  		      ibrav = 1 ,
+                  celldm(1) = 10.2629136099 ,
+  		        nat = 8 ,
+  		       ntyp = 1 ,
+  		    ecutwfc = 35 ,
+                    ecutrho = 140 ,
+  		occupations = 'smearing' ,
+                   smearing = 'fermi-dirac' ,
+                    degauss = 3.6d-3 ,
+/
+
+&ELECTRONS
+  		   conv_thr = 1d-6 ,
+		mixing_mode = 'plain' ,
+  		mixing_beta = 0.7d0 ,
+	    diagonalization = 'david' ,
+/
+
+ATOMIC_SPECIES
+  Si 28.085500d0 Si.pbe-n-kjpaw_psl.0.1.UPF
+
+ATOMIC_POSITIONS {crystal}
+  Si   0.25   0.25   0.25
+  Si   0.25   0.75   0.75
+  Si   0.75   0.75   0.25
+  Si   0.50   0.00   0.50
+  Si   0.75   0.25   0.75
+  Si   0.50   0.50   0.00
+  Si   0.00   0.00   0.00
+  Si   0.00   0.50   0.50
+
+K_POINTS {automatic}
+  6 6 6 1 1 1
