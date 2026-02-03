@@ -1,0 +1,60 @@
+
+     Program PWSCF v.6.7MaX starts on  3Feb2026 at 21:50:28 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI), running on     1 processors
+
+     MPI processes distributed on     1 nodes
+     Reading input from si_ecut55.in
+
+     Current dimensions of program PWSCF are:
+     Max number of different atomic species (ntypx) = 10
+     Max number of k-points (npk) =  40000
+     Max angular momentum in pseudopotentials (lmaxx) =  3
+
+=== STDERR ===
+*** buffer overflow detected ***: terminated
+
+Program received signal SIGABRT: Process abort signal.
+
+Backtrace for this error:
+#0  0x7b7f06823e59 in ???
+#1  0x7b7f06822e75 in ???
+#2  0x7b7f0644532f in ???
+	at ./signal/../sysdeps/unix/sysv/linux/x86_64/libc_sigaction.c:0
+#3  0x7b7f0649eb2c in __pthread_kill_implementation
+	at ./nptl/pthread_kill.c:44
+#4  0x7b7f0649eb2c in __pthread_kill_internal
+	at ./nptl/pthread_kill.c:78
+#5  0x7b7f0649eb2c in __GI___pthread_kill
+	at ./nptl/pthread_kill.c:89
+#6  0x7b7f0644527d in __GI_raise
+	at ../sysdeps/posix/raise.c:26
+#7  0x7b7f064288fe in __GI_abort
+	at ./stdlib/abort.c:79
+#8  0x7b7f064297b5 in __libc_message_impl
+	at ../sysdeps/posix/libc_fatal.c:134
+#9  0x7b7f06536c48 in __GI___fortify_fail
+	at ./debug/fortify_fail.c:24
+#10  0x7b7f06536603 in __GI___chk_fail
+	at ./debug/chk_fail.c:28
+#11  0x7b7f06537de4 in ___snprintf_chk
+	at ./debug/snprintf_chk.c:29
+#12  0x58b8ec1a096e in ???
+#13  0x58b8ebfbe1d7 in ???
+#14  0x58b8ec022007 in ???
+#15  0x58b8ebea20c7 in ???
+#16  0x58b8ebea0f22 in ???
+#17  0x7b7f0642a1c9 in __libc_start_call_main
+	at ../sysdeps/nptl/libc_start_call_main.h:58
+#18  0x7b7f0642a28a in __libc_start_main_impl
+	at ../csu/libc-start.c:360
+#19  0x58b8ebea0f54 in ???
+#20  0xffffffffffffffff in ???

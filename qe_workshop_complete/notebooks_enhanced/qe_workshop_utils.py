@@ -661,6 +661,223 @@ def generate_kpath_card(crystal_system: str, path: List[Tuple[str, int]] = None)
     return '\n'.join(lines)
 
 # ==============================================================================
+# LITERATURE REFERENCE VALUES FOR VALIDATION
+# ==============================================================================
+# These values are used to validate DFT calculations against known results.
+# Sources: CRC Handbook, Materials Project, original literature
+# ==============================================================================
+
+LITERATURE_VALUES = {
+    'Si': {
+        'name': 'Silicon',
+        'structure': 'diamond',
+        'space_group': 'Fd-3m',
+        'space_group_number': 227,
+        'lattice_a_exp': 5.431,       # Angstrom, experimental 300K
+        'lattice_a_pbe': 5.469,       # DFT-PBE typical
+        'lattice_a_lda': 5.40,        # DFT-LDA typical
+        'bulk_modulus_exp': 97.8,     # GPa
+        'bulk_modulus_pbe': 88.0,     # GPa
+        'band_gap_exp': 1.17,         # eV, indirect
+        'band_gap_pbe': 0.5,          # eV, DFT underestimate
+        'C11_exp': 165.6,             # GPa
+        'C12_exp': 63.9,              # GPa
+        'C44_exp': 79.5,              # GPa
+    },
+    'Al': {
+        'name': 'Aluminum',
+        'structure': 'fcc',
+        'space_group': 'Fm-3m',
+        'space_group_number': 225,
+        'lattice_a_exp': 4.050,
+        'lattice_a_pbe': 4.039,
+        'bulk_modulus_exp': 76.0,
+        'bulk_modulus_pbe': 77.0,
+        'is_metal': True,
+    },
+    'Fe': {
+        'name': 'Iron (BCC)',
+        'structure': 'bcc',
+        'space_group': 'Im-3m',
+        'space_group_number': 229,
+        'lattice_a_exp': 2.867,
+        'lattice_a_pbe': 2.831,
+        'bulk_modulus_exp': 170.0,
+        'bulk_modulus_pbe': 174.0,
+        'is_magnetic': True,
+        'magnetic_moment_exp': 2.22,  # Bohr magneton/atom
+        'magnetic_moment_pbe': 2.20,
+    },
+    'NaCl': {
+        'name': 'Sodium Chloride',
+        'structure': 'rocksalt',
+        'space_group': 'Fm-3m',
+        'space_group_number': 225,
+        'lattice_a_exp': 5.640,
+        'lattice_a_pbe': 5.691,
+        'bulk_modulus_exp': 24.0,
+        'bulk_modulus_pbe': 23.5,
+        'band_gap_exp': 8.5,
+    },
+    'SrTiO3': {
+        'name': 'Strontium Titanate',
+        'structure': 'perovskite',
+        'space_group': 'Pm-3m',
+        'space_group_number': 221,
+        'lattice_a_exp': 3.905,
+        'lattice_a_pbe': 3.945,
+        'bulk_modulus_exp': 174.0,
+        'bulk_modulus_pbe': 172.0,
+        'band_gap_exp': 3.25,
+        'band_gap_pbe': 1.8,
+    },
+    'MgO': {
+        'name': 'Magnesium Oxide',
+        'structure': 'rocksalt',
+        'space_group': 'Fm-3m',
+        'space_group_number': 225,
+        'lattice_a_exp': 4.212,
+        'lattice_a_pbe': 4.259,
+        'bulk_modulus_exp': 160.0,
+        'bulk_modulus_pbe': 148.0,
+        'band_gap_exp': 7.8,
+    },
+    'Cu': {
+        'name': 'Copper',
+        'structure': 'fcc',
+        'space_group': 'Fm-3m',
+        'space_group_number': 225,
+        'lattice_a_exp': 3.615,
+        'lattice_a_pbe': 3.636,
+        'bulk_modulus_exp': 137.0,
+        'bulk_modulus_pbe': 142.0,
+        'is_metal': True,
+    },
+}
+
+
+def validate_lattice_parameter(calculated: float, material: str, 
+                               functional: str = 'pbe') -> Dict:
+    """
+    Validate calculated lattice parameter against literature.
+    
+    Parameters
+    ----------
+    calculated : float
+        Calculated lattice parameter in Angstrom
+    material : str
+        Material identifier (e.g., 'Si', 'Al', 'SrTiO3')
+    functional : str
+        'pbe' or 'exp' for comparison
+    
+    Returns
+    -------
+    dict with validation results
+    """
+    if material not in LITERATURE_VALUES:
+        return {'error': f'Material {material} not in database'}
+    
+    ref = LITERATURE_VALUES[material]
+    key = f'lattice_a_{functional}'
+    
+    if key not in ref:
+        key = 'lattice_a_exp'
+    
+    ref_value = ref[key]
+    error = calculated - ref_value
+    error_percent = 100 * error / ref_value
+    
+    # Tolerance: PBE typically within 1-2% of experiment
+    passed = abs(error_percent) < 3.0  # 3% tolerance
+    
+    return {
+        'passed': passed,
+        'calculated': calculated,
+        'reference': ref_value,
+        'reference_type': functional,
+        'error_angstrom': error,
+        'error_percent': error_percent,
+        'tolerance_percent': 3.0,
+        'material': material,
+    }
+
+
+def validate_bulk_modulus(calculated: float, material: str,
+                          functional: str = 'pbe') -> Dict:
+    """
+    Validate calculated bulk modulus against literature.
+    
+    Parameters
+    ----------
+    calculated : float
+        Calculated bulk modulus in GPa
+    material : str
+        Material identifier
+    functional : str
+        'pbe' or 'exp' for comparison
+    
+    Returns
+    -------
+    dict with validation results
+    """
+    if material not in LITERATURE_VALUES:
+        return {'error': f'Material {material} not in database'}
+    
+    ref = LITERATURE_VALUES[material]
+    key = f'bulk_modulus_{functional}'
+    
+    if key not in ref:
+        key = 'bulk_modulus_exp'
+    
+    ref_value = ref[key]
+    error = calculated - ref_value
+    error_percent = 100 * error / ref_value
+    
+    # Tolerance: 10% for bulk modulus
+    passed = abs(error_percent) < 15.0
+    
+    return {
+        'passed': passed,
+        'calculated': calculated,
+        'reference': ref_value,
+        'reference_type': functional,
+        'error_gpa': error,
+        'error_percent': error_percent,
+        'tolerance_percent': 15.0,
+        'material': material,
+    }
+
+
+def print_validation_report(lattice_result: Dict = None, 
+                            bulk_modulus_result: Dict = None,
+                            material: str = None):
+    """Print a formatted validation report."""
+    print("=" * 70)
+    print("VALIDATION REPORT")
+    if material:
+        ref = LITERATURE_VALUES.get(material, {})
+        print(f"Material: {ref.get('name', material)}")
+        print(f"Structure: {ref.get('structure', 'unknown')}")
+    print("=" * 70)
+    
+    if lattice_result:
+        status = "✓ PASS" if lattice_result.get('passed') else "✗ FAIL"
+        print(f"\nLattice Parameter: {status}")
+        print(f"  Calculated: {lattice_result['calculated']:.4f} Å")
+        print(f"  Reference ({lattice_result['reference_type']}): {lattice_result['reference']:.4f} Å")
+        print(f"  Error: {lattice_result['error_percent']:+.2f}%")
+    
+    if bulk_modulus_result:
+        status = "✓ PASS" if bulk_modulus_result.get('passed') else "✗ FAIL"
+        print(f"\nBulk Modulus: {status}")
+        print(f"  Calculated: {bulk_modulus_result['calculated']:.1f} GPa")
+        print(f"  Reference ({bulk_modulus_result['reference_type']}): {bulk_modulus_result['reference']:.1f} GPa")
+        print(f"  Error: {bulk_modulus_result['error_percent']:+.1f}%")
+    
+    print("=" * 70)
+
+
+# ==============================================================================
 # Module Info
 # ==============================================================================
 

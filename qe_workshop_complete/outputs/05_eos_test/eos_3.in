@@ -1,0 +1,42 @@
+&CONTROL
+   calculation      = 'scf'
+   outdir           = './tmp'
+   prefix           = 'eos_3'
+   pseudo_dir       = '/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE'
+/
+&SYSTEM
+   ecutwfc          = 40
+   ecutrho          = 320
+   occupations      = 'smearing'
+   degauss          = 0.01
+   smearing         = 'cold'
+   ntyp             = 1
+   nat              = 2
+   ibrav            = 0
+/
+&ELECTRONS
+   conv_thr         = 1e-06
+/
+&IONS
+/
+&CELL
+/
+&FCP
+/
+&RISM
+/
+ATOMIC_SPECIES
+Si 28.085 Si.pbe-n-rrkjus_psl.1.0.0.UPF
+
+K_POINTS automatic
+4 4 4  0 0 0
+
+CELL_PARAMETERS angstrom
+0.00000000000000 2.74215000000000 2.74215000000000
+2.74215000000000 0.00000000000000 2.74215000000000
+2.74215000000000 2.74215000000000 0.00000000000000
+
+ATOMIC_POSITIONS angstrom
+Si 0.0000000000 0.0000000000 0.0000000000  
+Si 1.3710750000 1.3710750000 1.3710750000  
+

@@ -1,0 +1,44 @@
+&CONTROL
+   calculation      = 'scf'
+   outdir           = './tmp'
+   prefix           = 'fe_spin'
+   pseudo_dir       = '/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE'
+/
+&SYSTEM
+   starting_magnetization(1) = 2.3
+   ecutwfc          = 60
+   ecutrho          = 480
+   occupations      = 'smearing'
+   degauss          = 0.02
+   smearing         = 'mv'
+   nspin            = 2
+   ntyp             = 1
+   nat              = 1
+   ibrav            = 0
+/
+&ELECTRONS
+   conv_thr         = 1e-06
+   mixing_beta      = 0.3
+/
+&IONS
+/
+&CELL
+/
+&FCP
+/
+&RISM
+/
+ATOMIC_SPECIES
+Fe  55.845 Fe.pbe-spn-kjpaw_psl.1.0.0.UPF
+
+K_POINTS automatic
+8 8 8  0 0 0
+
+CELL_PARAMETERS angstrom
+-1.43500000000000 1.43500000000000 1.43500000000000
+1.43500000000000 -1.43500000000000 1.43500000000000
+1.43500000000000 1.43500000000000 -1.43500000000000
+
+ATOMIC_POSITIONS angstrom
+Fe  0.0000000000 0.0000000000 0.0000000000  
+

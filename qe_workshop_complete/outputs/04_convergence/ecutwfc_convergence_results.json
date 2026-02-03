@@ -1,0 +1,119 @@
+[
+  {
+    "ecutwfc": 20,
+    "ecutrho": 160,
+    "energy_ry": null,
+    "time_s": 5.657881259918213,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 25,
+    "ecutrho": 200,
+    "energy_ry": null,
+    "time_s": 5.012655258178711,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 30,
+    "ecutrho": 240,
+    "energy_ry": null,
+    "time_s": 5.0021631717681885,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 35,
+    "ecutrho": 280,
+    "energy_ry": null,
+    "time_s": 5.608758449554443,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 40,
+    "ecutrho": 320,
+    "energy_ry": null,
+    "time_s": 4.9960973262786865,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 45,
+    "ecutrho": 360,
+    "energy_ry": null,
+    "time_s": 5.590412855148315,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 50,
+    "ecutrho": 400,
+    "energy_ry": null,
+    "time_s": 4.984835624694824,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 55,
+    "ecutrho": 440,
+    "energy_ry": null,
+    "time_s": 4.99627161026001,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 60,
+    "ecutrho": 480,
+    "energy_ry": null,
+    "time_s": 5.647887468338013,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 65,
+    "ecutrho": 520,
+    "energy_ry": null,
+    "time_s": 4.96432638168335,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 70,
+    "ecutrho": 560,
+    "energy_ry": null,
+    "time_s": 4.992810487747192,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 75,
+    "ecutrho": 600,
+    "energy_ry": null,
+    "time_s": 5.613977432250977,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  },
+  {
+    "ecutwfc": 80,
+    "ecutrho": 640,
+    "energy_ry": null,
+    "time_s": 5.681974411010742,
+    "converged": false,
+    "total_force": null,
+    "pressure_kbar": null
+  }
+]

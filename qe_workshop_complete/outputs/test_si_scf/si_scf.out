@@ -1,0 +1,106 @@
+
+     Program PWSCF v.6.7MaX starts on  3Feb2026 at 22:20:31 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI), running on     2 processors
+
+     MPI processes distributed on     1 nodes
+     R & G space division:  proc/nbgrp/npool/nimage =       2
+     Reading input from si_scf.in
+
+     Current dimensions of program PWSCF are:
+     Max number of different atomic species (ntypx) = 10
+     Max number of k-points (npk) =  40000
+     Max angular momentum in pseudopotentials (lmaxx) =  3
+
+=== STDERR ===
+*** buffer overflow detected ***: terminated
+
+Program received signal SIGABRT: Process abort signal.
+
+Backtrace for this error:
+*** buffer overflow detected ***: terminated
+
+Program received signal SIGABRT: Process abort signal.
+
+Backtrace for this error:
+#0  0x78ffec223e59 in ???
+#1  0x78ffec222e75 in ???
+#2  0x78ffebe4532f in ???
+	at ./signal/../sysdeps/unix/sysv/linux/x86_64/libc_sigaction.c:0
+#3  0x78ffebe9eb2c in __pthread_kill_implementation
+	at ./nptl/pthread_kill.c:44
+#4  0x78ffebe9eb2c in __pthread_kill_internal
+	at ./nptl/pthread_kill.c:78
+#5  0x78ffebe9eb2c in __GI___pthread_kill
+	at ./nptl/pthread_kill.c:89
+#6  0x78ffebe4527d in __GI_raise
+	at ../sysdeps/posix/raise.c:26
+#7  0x78ffebe288fe in __GI_abort
+	at ./stdlib/abort.c:79
+#8  0x78ffebe297b5 in __libc_message_impl
+	at ../sysdeps/posix/libc_fatal.c:134
+#9  0x78ffebf36c48 in __GI___fortify_fail
+	at ./debug/fortify_fail.c:24
+#10  0x78ffebf36603 in __GI___chk_fail
+	at ./debug/chk_fail.c:28
+#11  0x78ffebf37de4 in ___snprintf_chk
+	at ./debug/snprintf_chk.c:29
+#12  0x611cc4c0996e in ???
+#13  0x611cc4a271d7 in ???
+#14  0x611cc4a8b007 in ???
+#15  0x611cc490b0c7 in ???
+#16  0x611cc4909f22 in ???
+#17  0x78ffebe2a1c9 in __libc_start_call_main
+	at ../sysdeps/nptl/libc_start_call_main.h:58
+#18  0x78ffebe2a28a in __libc_start_main_impl
+	at ../csu/libc-start.c:360
+#19  0x611cc4909f54 in ???
+#20  0xffffffffffffffff in ???
+#0  0x700153c23e59 in ???
+#1  0x700153c22e75 in ???
+#2  0x70015384532f in ???
+	at ./signal/../sysdeps/unix/sysv/linux/x86_64/libc_sigaction.c:0
+#3  0x70015389eb2c in __pthread_kill_implementation
+	at ./nptl/pthread_kill.c:44
+#4  0x70015389eb2c in __pthread_kill_internal
+	at ./nptl/pthread_kill.c:78
+#5  0x70015389eb2c in __GI___pthread_kill
+	at ./nptl/pthread_kill.c:89
+#6  0x70015384527d in __GI_raise
+	at ../sysdeps/posix/raise.c:26
+#7  0x7001538288fe in __GI_abort
+	at ./stdlib/abort.c:79
+#8  0x7001538297b5 in __libc_message_impl
+	at ../sysdeps/posix/libc_fatal.c:134
+#9  0x700153936c48 in __GI___fortify_fail
+	at ./debug/fortify_fail.c:24
+#10  0x700153936603 in __GI___chk_fail
+	at ./debug/chk_fail.c:28
+#11  0x700153937de4 in ___snprintf_chk
+	at ./debug/snprintf_chk.c:29
+#12  0x556ea37f296e in ???
+#13  0x556ea36101d7 in ???
+#14  0x556ea3674007 in ???
+#15  0x556ea34f40c7 in ???
+#16  0x556ea34f2f22 in ???
+#17  0x70015382a1c9 in __libc_start_call_main
+	at ../sysdeps/nptl/libc_start_call_main.h:58
+#18  0x70015382a28a in __libc_start_main_impl
+	at ../csu/libc-start.c:360
+#19  0x556ea34f2f54 in ???
+#20  0xffffffffffffffff in ???
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node niel-fzu exited on signal 6 (Aborted).
+--------------------------------------------------------------------------

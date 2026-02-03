@@ -1,0 +1,38 @@
+*** buffer overflow detected ***: terminated
+
+Program received signal SIGABRT: Process abort signal.
+
+Backtrace for this error:
+#0  0x77031c623e59 in ???
+#1  0x77031c622e75 in ???
+#2  0x77031c24532f in ???
+	at ./signal/../sysdeps/unix/sysv/linux/x86_64/libc_sigaction.c:0
+#3  0x77031c29eb2c in __pthread_kill_implementation
+	at ./nptl/pthread_kill.c:44
+#4  0x77031c29eb2c in __pthread_kill_internal
+	at ./nptl/pthread_kill.c:78
+#5  0x77031c29eb2c in __GI___pthread_kill
+	at ./nptl/pthread_kill.c:89
+#6  0x77031c24527d in __GI_raise
+	at ../sysdeps/posix/raise.c:26
+#7  0x77031c2288fe in __GI_abort
+	at ./stdlib/abort.c:79
+#8  0x77031c2297b5 in __libc_message_impl
+	at ../sysdeps/posix/libc_fatal.c:134
+#9  0x77031c336c48 in __GI___fortify_fail
+	at ./debug/fortify_fail.c:24
+#10  0x77031c336603 in __GI___chk_fail
+	at ./debug/chk_fail.c:28
+#11  0x77031c337de4 in ___snprintf_chk
+	at ./debug/snprintf_chk.c:29
+#12  0x5f160dca796e in ???
+#13  0x5f160dac51d7 in ???
+#14  0x5f160db29007 in ???
+#15  0x5f160d9a90c7 in ???
+#16  0x5f160d9a7f22 in ???
+#17  0x77031c22a1c9 in __libc_start_call_main
+	at ../sysdeps/nptl/libc_start_call_main.h:58
+#18  0x77031c22a28a in __libc_start_main_impl
+	at ../csu/libc-start.c:360
+#19  0x5f160d9a7f54 in ???
+#20  0xffffffffffffffff in ???
