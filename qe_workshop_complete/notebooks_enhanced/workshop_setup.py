@@ -55,15 +55,36 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 # =============================================================================
 # QE EXECUTABLE CONFIGURATION - Auto-detect QE 7.5 or system installation
 # =============================================================================
+def _is_docker():
+    """Check if running inside Docker container."""
+    return Path('/.dockerenv').exists() or os.environ.get('DOCKER_CONTAINER', False)
+
 def _find_qe_executable():
-    """Auto-detect QE installation path."""
-    # Priority order for finding pw.x
+    """
+    Auto-detect QE installation path.
+    Works for both Docker container and native installations.
+    """
     search_paths = [
-        Path.home() / 'src' / 'qe-7.5' / 'bin' / 'pw.x',  # User compiled QE 7.5
-        Path('/opt/qe/bin/pw.x'),                          # Docker/system install
-        Path('/usr/local/bin/pw.x'),                       # Local install
+        # Docker container paths (checked first for Docker env)
+        Path('/opt/qe/bin/pw.x'),
+        Path('/usr/bin/pw.x'),
+        # User compiled QE 7.x paths (for native installations)
+        Path.home() / 'src' / 'qe-7.5' / 'bin' / 'pw.x',
+        Path.home() / 'src' / 'qe-7.4' / 'bin' / 'pw.x',
+        Path.home() / 'src' / 'qe-7.3' / 'bin' / 'pw.x',
+        # Other common locations
+        Path('/usr/local/bin/pw.x'),
+        Path('/opt/quantum-espresso/bin/pw.x'),
     ]
     
+    # If in Docker, prioritize Docker paths
+    if _is_docker():
+        docker_paths = [Path('/opt/qe/bin/pw.x'), Path('/usr/bin/pw.x')]
+        for path in docker_paths:
+            if path.exists():
+                return str(path)
+    
+    # Check all paths
     for path in search_paths:
         if path.exists():
             return str(path)
@@ -76,12 +97,18 @@ def _find_qe_executable():
     return 'pw.x'  # Default, hope it's in PATH
 
 def _find_mpirun():
-    """Auto-detect MPI runner."""
-    # Priority: Intel oneAPI > OpenMPI > system
+    """
+    Auto-detect MPI runner.
+    Works for both Docker container and native installations.
+    """
     search_paths = [
+        # Docker typically uses OpenMPI
+        Path('/usr/bin/mpirun'),
+        # Intel oneAPI (native installations)
         Path('/opt/intel/oneapi/mpi/latest/bin/mpirun'),
         Path.home() / 'intel' / 'oneapi' / 'mpi' / 'latest' / 'bin' / 'mpirun',
-        Path('/usr/bin/mpirun'),
+        # Other locations
+        Path('/usr/local/bin/mpirun'),
     ]
     
     for path in search_paths:
