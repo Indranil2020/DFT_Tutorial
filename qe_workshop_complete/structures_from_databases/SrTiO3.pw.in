@@ -1,0 +1,38 @@
+&CONTROL
+    calculation = 'scf'
+    prefix = 'srtio3'
+    outdir = './tmp'
+    pseudo_dir = '/path/to/pseudopotentials'
+/
+
+&SYSTEM
+    ibrav = 0
+    nat = 5
+    ntyp = 3
+    ecutwfc = 50.0
+    ecutrho = 400.0
+/
+
+&ELECTRONS
+    conv_thr = 1.0e-8
+/
+
+CELL_PARAMETERS {angstrom}
+      3.9050000000     0.0000000000     0.0000000000
+      0.0000000000     3.9050000000     0.0000000000
+      0.0000000000     0.0000000000     3.9050000000
+
+ATOMIC_SPECIES
+  Sr  87.6200  Sr.upf
+  Ti  47.8670  Ti.upf
+  O  15.9990  O.upf
+
+ATOMIC_POSITIONS {crystal}
+  Sr      0.0000000000     0.0000000000     0.0000000000
+  Ti      0.5000000000     0.5000000000     0.5000000000
+  O      0.5000000000     0.5000000000     0.0000000000
+  O      0.0000000000     0.5000000000     0.5000000000
+  O      0.5000000000     0.0000000000     0.5000000000
+
+K_POINTS {automatic}
+  6 6 6 0 0 0
