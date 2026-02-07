@@ -155,6 +155,60 @@ Open your terminal/CMD in the `QE_Builder` folder and run:
     docker push yourdockerid/qe-workshop-full
     ```
 
+## Proposed Steps
+
+### 1. Build the Image
+First, we build the image locally. We'll give it a simple name like `qe-workshop`.
+```bash
+cd /home/niel/git/DFT_Tutorial/qe_workshop_complete
+docker build -t qe-workshop .
+```
+
+### 2. Tag the Image for Docker Hub
+To push an image, it must be tagged with your Docker ID. This tells Docker *where* to send it.
+```bash
+docker tag qe-workshop indranilm/qe-workshop:latest
+```
+
+### 3. Log In to Docker Hub
+You need to authenticate your terminal with your Docker account.
+```bash
+docker login -u indranilm
+```
+*Note: It will prompt you for your password.*
+
+### 4. Push the Image
+Finally, upload the image to the cloud.
+```bash
+docker push indranilm/qe-workshop:latest
+```
+
+## Verification Plan
+
+### Manual Verification
+1.  Check [Docker Hub](https://hub.docker.com/u/indranilm) to see if the `qe-workshop` repository exists and has a `latest` tag.
+2.  (Optional) Try pulling the image on a different machine or deleting the local one and pulling it:
+    ```bash
+    docker pull indranilm/qe-workshop:latest
+    ```
+
+sudo apt install docker-compose, how to do it in windows  and mac do not know 
+
+docker-compose up
+ERROR: Version in "./docker-compose.yml" is unsupported. You might be seeing this error because you're using the wrong Compose file version. Either specify a supported version (e.g "2.2" or "3.3") and place your service definitions under the `services` key, or omit the `version` key and place your service definitions at the root of the file to use version 1.
+For more on the Compose file format versions, see https://docs.docker.com/compose/compose-file/
+(base) niel@niel-hp:~/trial_docker$ 
+
+
+vi docker-compose.yml 
+(base) niel@niel-hp:~/trial_docker$ docker-compose up
+WARNING: Some services (qe-workshop) use the 'deploy' key, which will be ignored. Compose does not support 'deploy' configuration - use `docker stack deploy` to deploy to a swarm.
+ERROR: Couldn't connect to Docker daemon at http+docker://localhost - is it running?
+
+If it's at a non-standard location, specify the URL with the DOCKER_HOST environment variable.
+
+
+
 ### Step 4: Create the "One-Click" Launchers
 Students hate typing commands. You will provide them with files they just double-click. Create these two files.
 

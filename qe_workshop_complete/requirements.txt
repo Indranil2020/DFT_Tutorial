@@ -69,7 +69,11 @@ phonopy>=2.20.0
 # Transport Properties (REQUIRED for Notebook 09)
 # =============================================================================
 
-# Thermal transport (lattice thermal conductivity) is handled via ALAMODE,
+# BoltzTraP2 - Electronic transport (Seebeck, electrical conductivity, κ_e)
+# Works with any DFT code that provides eigenvalues on a k-mesh
+BoltzTraP2>=22.0
+
+# Lattice thermal conductivity (κ_lattice) is handled via ALAMODE,
 # which is installed as native binaries in the Docker image (not via pip).
 
 # =============================================================================

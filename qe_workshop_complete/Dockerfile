@@ -80,7 +80,7 @@ RUN pip3 install --no-cache-dir --upgrade pip && \
 # =============================================================================
 # Additional packages that need special handling
 # =============================================================================
-# ALAMODE build dependencies
+# ALAMODE build dependencies + BoltzTraP2 (needs cmake for spglib wheel)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cmake \
     libboost-all-dev \
