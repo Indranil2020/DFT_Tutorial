@@ -2,43 +2,31 @@
 # Docker Compose for QE Workshop
 # =============================================================================
 # Usage:
+#   Start:  docker compose up        (Docker Compose V2, bundled with Docker Desktop)
+#   Stop:   docker compose down
+#   Build:  docker compose build
+#
+# If using legacy docker-compose (V1):
 #   Start:  docker-compose up
 #   Stop:   docker-compose down
-#   Build:  docker-compose build
 # =============================================================================
-
-version: '3.8'
+version: "3.3"
 
 services:
   qe-workshop:
-    build: .
-    image: qe-workshop:latest
+    image: indranilm/qe-workshop:latest
     container_name: qe-workshop
     ports:
       - "8888:8888"
     volumes:
-      # Mount current directory to /workspace
       - .:/workspace
-      # Persist Jupyter settings
-      - jupyter-config:/root/.jupyter
     environment:
       - ESPRESSO_PSEUDO=/workspace/pseudopotentials
       - OMP_NUM_THREADS=1
-    # Use all available CPUs for MPI
-    deploy:
-      resources:
-        limits:
-          cpus: '8'
-          memory: 8G
-    working_dir: /workspace/notebooks_enhanced
+      # MPI requires these when running as root inside a container
+      - OMPI_ALLOW_RUN_AS_ROOT=1
+      - OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+    working_dir: /workspace
     command: >
-      jupyter lab 
-      --ip=0.0.0.0 
-      --port=8888 
-      --no-browser 
-      --allow-root 
-      --NotebookApp.token='' 
-      --NotebookApp.password=''
-
-volumes:
-  jupyter-config:
+      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+      --NotebookApp.token='' --NotebookApp.password=''
