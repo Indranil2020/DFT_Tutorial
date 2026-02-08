@@ -657,8 +657,15 @@ def _generate_candidate_filenames(element: str, functional: str) -> List[str]:
     return candidates
 
 
-def _try_download_url(url: str, dest: Path, timeout: int = 15) -> bool:
-    """Try to download a file. Returns True on success, False on failure."""
+def _url_exists(url: str, timeout: int = 10) -> bool:
+    """Check if a URL exists using a HEAD request. Returns True/False."""
+    req = urllib.request.Request(url, method='HEAD')
+    resp = urllib.request.urlopen(req, timeout=timeout)
+    return resp.status == 200
+
+
+def _download_url(url: str, dest: Path, timeout: int = 30) -> bool:
+    """Download a file from URL to dest. Caller must verify URL exists first."""
     req = urllib.request.Request(url)
     resp = urllib.request.urlopen(req, timeout=timeout)
     with open(dest, 'wb') as f:
@@ -727,20 +734,16 @@ def download_pseudopotential(element: str, functional: str = 'PBE',
         filepath = pp_dir / filename
         url = PP_BASE_URL + filename
         print(f"  Downloading {element} ({functional}): {filename}...", end=" ", flush=True)
-        downloaded = False
-        try:
-            _try_download_url(url, filepath)
-            print("✓")
-            downloaded = True
-        except Exception:
-            print("✗ (trying alternatives)")
 
-        if downloaded:
-            # Validate: parse header to confirm element matches
+        if _url_exists(url):
+            _download_url(url, filepath)
+            print("✓")
             info = parse_upf_header(filepath)
             if info.get('element') and info['element'] != element:
                 print(f"  ⚠ Warning: PP header says element={info['element']}, expected {element}")
             return filepath
+        else:
+            print("✗ (trying alternatives)")
 
     # --- Step 3: Auto-discovery — try filename variations ---
     print(f"  Searching for {element} ({functional}) PP on QE repository...")
@@ -748,24 +751,25 @@ def download_pseudopotential(element: str, functional: str = 'PBE',
     for candidate in candidates:
         url = PP_BASE_URL + candidate
         filepath = pp_dir / candidate
-        try:
-            _try_download_url(url, filepath)
-            # Validate element from header
-            info = parse_upf_header(filepath)
-            if info.get('element') and info['element'] != element:
-                filepath.unlink()
-                continue
-            print(f"  ✓ Found: {candidate}")
-            return filepath
-        except Exception:
+
+        if not _url_exists(url):
             continue
+
+        _download_url(url, filepath)
+        info = parse_upf_header(filepath)
+        if info.get('element') and info['element'] != element:
+            filepath.unlink()
+            continue
+        print(f"  ✓ Found: {candidate}")
+        return filepath
 
     # --- Step 4: All attempts failed ---
     avail_funcs = [f for f in PSEUDO_DB if element in PSEUDO_DB[f]]
     msg = f"Could not find pseudopotential for {element} ({functional})."
     if avail_funcs:
         msg += f" Available in: {', '.join(avail_funcs)}"
-    raise FileNotFoundError(msg)
+    print(f"  ✗ {msg}")
+    return None
 
 
 def setup_pseudopotentials(elements: List[str], functional: str = 'PBE',
@@ -827,11 +831,11 @@ def setup_pseudopotentials(elements: List[str], functional: str = 'PBE',
         if verbose:
             print(f"\n  Downloading {len(to_download)} pseudopotentials...")
         for elem in to_download:
-            try:
-                filepath = download_pseudopotential(elem, functional, force=False)
+            filepath = download_pseudopotential(elem, functional, force=False)
+            if filepath and filepath.exists():
                 result[elem] = filepath
-            except FileNotFoundError as e:
-                print(f"  ✗ {elem}: {e}")
+            else:
+                print(f"  ✗ {elem}: not found for {functional}")
 
     # Rebuild manifest after any downloads
     if to_download:
@@ -985,34 +989,27 @@ def download_all_pseudopotentials(functionals: List[str] = None,
 
         print(f"  Existing: {len(db) - len(to_download)}, To download: {len(to_download)}")
 
-        def _download_one(item):
-            elem, filename = item
+        for elem, filename in to_download:
             url = PP_BASE_URL + filename
             filepath = pp_dir / filename
-            _try_download_url(url, filepath)
-            return elem, filepath
 
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            futures = {executor.submit(_download_one, item): item for item in to_download}
-            for future in as_completed(futures):
-                elem, filename = futures[future]
-                try:
-                    elem, filepath = future.result()
-                    results[functional][elem] = filepath
+            if _url_exists(url):
+                _download_url(url, filepath)
+                results[functional][elem] = filepath
+                total_downloaded += 1
+                if verbose:
+                    print(f"    ✓ {elem}: {filename}")
+            else:
+                # Auto-discovery fallback
+                discovered = download_pseudopotential(elem, functional)
+                if discovered and discovered.exists():
+                    results[functional][elem] = discovered
                     total_downloaded += 1
                     if verbose:
-                        print(f"    ✓ {elem}: {filename}")
-                except Exception as e:
-                    # Try auto-discovery fallback
-                    try:
-                        filepath = download_pseudopotential(elem, functional)
-                        results[functional][elem] = filepath
-                        total_downloaded += 1
-                        if verbose:
-                            print(f"    ✓ {elem}: {filepath.name} (discovered)")
-                    except Exception:
-                        failed.append((functional, elem, str(e)))
-                        print(f"    ✗ {elem}: {e}")
+                        print(f"    ✓ {elem}: {discovered.name} (discovered)")
+                else:
+                    failed.append((functional, elem, f"not found on {PP_BASE_URL}"))
+                    print(f"    ✗ {elem}: not available")
 
     # Build manifest from everything we have
     build_pp_manifest(verbose=False)
