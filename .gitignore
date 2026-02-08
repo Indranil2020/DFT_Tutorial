@@ -1,8 +1,9 @@
 *.log
 *.zip
 *.tar.gz
-outputs/
+*outputs/*
 qe_workshop_complete/outputs/*
 *.dat
 *.xml
+wfc*.dat
 qe_workshop_complete/WORKSHOP_INSTRUCTOR_GUIDE.md

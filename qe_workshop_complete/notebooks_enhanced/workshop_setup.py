@@ -119,12 +119,51 @@ def _find_mpirun():
     
     return shutil.which('mpirun') or 'mpirun'
 
+def _build_qe_env():
+    """
+    Build environment dict for running QE executables.
+
+    Auto-detects shared library paths (libxc, etc.) that QE may need
+    at runtime when compiled against external libraries.
+    """
+    env = os.environ.copy()
+    extra_lib_dirs = []
+
+    # Common locations for libxc (needed if QE compiled with libxc support)
+    libxc_search = [
+        Path.home() / 'src' / 'libxc-7.0.0-install' / 'lib',
+        Path.home() / 'src' / 'libxc-6.2.2-install' / 'lib',
+        Path('/usr/local/lib'),
+        Path('/opt/libxc/lib'),
+    ]
+    # Also check any libxc-*-install directories under ~/src
+    src_dir = Path.home() / 'src'
+    if src_dir.is_dir():
+        for d in src_dir.iterdir():
+            if d.is_dir() and d.name.startswith('libxc') and d.name.endswith('-install'):
+                lib_dir = d / 'lib'
+                if lib_dir.is_dir():
+                    libxc_search.insert(0, lib_dir)
+
+    for lib_dir in libxc_search:
+        if lib_dir.is_dir() and any(lib_dir.glob('libxc*.so*')):
+            extra_lib_dirs.append(str(lib_dir))
+            break  # Use first found
+
+    if extra_lib_dirs:
+        existing = env.get('LD_LIBRARY_PATH', '')
+        new_paths = ':'.join(extra_lib_dirs)
+        env['LD_LIBRARY_PATH'] = f"{new_paths}:{existing}" if existing else new_paths
+
+    return env
+
 # =============================================================================
 # MPI CONFIGURATION
 # =============================================================================
 NPROCS = int(os.environ.get('QE_NPROCS', (os.cpu_count()//2) or 1))
 MPI_COMMAND = os.environ.get('QE_MPI_COMMAND', _find_mpirun())
 PW_EXECUTABLE = os.environ.get('QE_PW_EXECUTABLE', _find_qe_executable())
+_QE_ENV = _build_qe_env()
 
 # Other QE executables (auto-detect from same directory as pw.x)
 _QE_BIN_DIR = Path(PW_EXECUTABLE).parent if Path(PW_EXECUTABLE).exists() else None
@@ -1262,7 +1301,7 @@ def run_qe(input_file: Path, executable: str = None,
     
     start = time.time()
     result = subprocess.run(cmd, capture_output=True, text=True,
-                           cwd=work_dir, timeout=timeout)
+                           cwd=work_dir, timeout=timeout, env=_QE_ENV)
     elapsed = time.time() - start
     
     output = result.stdout
