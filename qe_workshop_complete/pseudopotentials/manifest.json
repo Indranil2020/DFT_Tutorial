@@ -1,0 +1,512 @@
+{
+  "LDA": {
+    "Mg": {
+      "filename": "Mg.pz-hgh.UPF",
+      "pp_type": "NC",
+      "ecutwfc": 0.0,
+      "ecutrho": 0.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/LDA/Mg.pz-hgh.UPF",
+      "header_functional": "SLA-PZ-NOGX-NOGC"
+    },
+    "Si": {
+      "filename": "Si.pz-vbc.UPF",
+      "pp_type": "NC",
+      "ecutwfc": 0.0,
+      "ecutrho": 0.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/LDA/Si.pz-vbc.UPF",
+      "header_functional": "LDA"
+    }
+  },
+  "PBE": {
+    "Al": {
+      "filename": "Al.pbe-nl-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 29.0,
+      "ecutrho": 121.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Al.pbe-nl-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Ar": {
+      "filename": "Ar.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 48.0,
+      "ecutrho": 225.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Ar.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "As": {
+      "filename": "As.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 20.0,
+      "ecutrho": 103.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/As.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Au": {
+      "filename": "Au.pbe-spfn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 68.0,
+      "ecutrho": 376.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Au.pbe-spfn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "B": {
+      "filename": "B.pbe-n-rrkjus_psl.1.0.0.UPF",
+      "pp_type": "US",
+      "ecutwfc": 43.0,
+      "ecutrho": 325.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/B.pbe-n-rrkjus_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Ba": {
+      "filename": "Ba.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 37.0,
+      "ecutrho": 176.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Ba.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Be": {
+      "filename": "Be.pbe-n-rrkjus_psl.1.0.0.UPF",
+      "pp_type": "US",
+      "ecutwfc": 33.0,
+      "ecutrho": 132.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Be.pbe-n-rrkjus_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Bi": {
+      "filename": "Bi.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 45.0,
+      "ecutrho": 455.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Bi.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Br": {
+      "filename": "Br.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 49.0,
+      "ecutrho": 196.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Br.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "C": {
+      "filename": "C.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 40.0,
+      "ecutrho": 326.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/C.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Ca": {
+      "filename": "Ca.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 45.0,
+      "ecutrho": 274.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Ca.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Ce": {
+      "filename": "Ce.pbe-spdn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 37.0,
+      "ecutrho": 179.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Ce.pbe-spdn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Cl": {
+      "filename": "Cl.pbe-nl-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 45.0,
+      "ecutrho": 181.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Cl.pbe-nl-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Co": {
+      "filename": "Co.pbe-spn-kjpaw_psl.0.3.1.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 60.0,
+      "ecutrho": 445.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Co.pbe-spn-kjpaw_psl.0.3.1.UPF",
+      "header_functional": "PBE"
+    },
+    "Cr": {
+      "filename": "Cr.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 48.0,
+      "ecutrho": 457.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Cr.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Cs": {
+      "filename": "Cs.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 34.0,
+      "ecutrho": 258.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Cs.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Cu": {
+      "filename": "Cu.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 45.0,
+      "ecutrho": 236.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Cu.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "F": {
+      "filename": "F.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 49.0,
+      "ecutrho": 316.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/F.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Fe": {
+      "filename": "Fe.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 71.0,
+      "ecutrho": 496.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Fe.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Ga": {
+      "filename": "Ga.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 60.0,
+      "ecutrho": 244.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Ga.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Ge": {
+      "filename": "Ge.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 42.0,
+      "ecutrho": 239.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Ge.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "H": {
+      "filename": "H.pbe-rrkjus_psl.1.0.0.UPF",
+      "pp_type": "US",
+      "ecutwfc": 46.0,
+      "ecutrho": 221.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/H.pbe-rrkjus_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "He": {
+      "filename": "He.pbe-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 46.0,
+      "ecutrho": 203.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/He.pbe-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Hf": {
+      "filename": "Hf.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 46.0,
+      "ecutrho": 264.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Hf.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "I": {
+      "filename": "I.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 36.0,
+      "ecutrho": 154.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/I.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "In": {
+      "filename": "In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 41.0,
+      "ecutrho": 212.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "K": {
+      "filename": "K.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 41.0,
+      "ecutrho": 277.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/K.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Kr": {
+      "filename": "Kr.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 63.0,
+      "ecutrho": 307.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Kr.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "La": {
+      "filename": "La.pbe-spfn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 75.0,
+      "ecutrho": 537.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/La.pbe-spfn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Li": {
+      "filename": "Li.pbe-sl-rrkjus_psl.1.0.0.UPF",
+      "pp_type": "US",
+      "ecutwfc": 50.0,
+      "ecutrho": 325.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Li.pbe-sl-rrkjus_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Mg": {
+      "filename": "Mg.pbe-spnl-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 58.0,
+      "ecutrho": 385.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Mg.pbe-spnl-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Mo": {
+      "filename": "Mo.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 49.0,
+      "ecutrho": 306.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Mo.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "N": {
+      "filename": "N.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 44.0,
+      "ecutrho": 320.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/N.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Na": {
+      "filename": "Na.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 66.0,
+      "ecutrho": 323.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Na.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Nb": {
+      "filename": "Nb.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 47.0,
+      "ecutrho": 266.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Nb.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "O": {
+      "filename": "O.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 47.0,
+      "ecutrho": 323.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/O.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Os": {
+      "filename": "Os.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 54.0,
+      "ecutrho": 268.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Os.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "P": {
+      "filename": "P.pbe-nl-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 34.0,
+      "ecutrho": 138.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/P.pbe-nl-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Pb": {
+      "filename": "Pb.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 46.0,
+      "ecutrho": 211.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Pb.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Pd": {
+      "filename": "Pd.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 56.0,
+      "ecutrho": 539.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Pd.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Pt": {
+      "filename": "Pt.pbe-spfn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 77.0,
+      "ecutrho": 392.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Pt.pbe-spfn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Rb": {
+      "filename": "Rb.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 35.0,
+      "ecutrho": 259.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Rb.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Re": {
+      "filename": "Re.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 51.0,
+      "ecutrho": 274.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Re.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Rh": {
+      "filename": "Rh.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 53.0,
+      "ecutrho": 361.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Rh.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Ru": {
+      "filename": "Ru.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 52.0,
+      "ecutrho": 353.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Ru.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "S": {
+      "filename": "S.pbe-nl-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 39.0,
+      "ecutrho": 157.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/S.pbe-nl-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Sb": {
+      "filename": "Sb.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 27.0,
+      "ecutrho": 136.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Sb.pbe-n-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Sc": {
+      "filename": "Sc.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 50.0,
+      "ecutrho": 402.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Sc.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Se": {
+      "filename": "Se.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 55.0,
+      "ecutrho": 249.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Se.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Si": {
+      "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
+      "pp_type": "US",
+      "ecutwfc": 44.0,
+      "ecutrho": 175.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Si.pbe-n-rrkjus_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Sn": {
+      "filename": "Sn.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 47.0,
+      "ecutrho": 250.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Sn.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Sr": {
+      "filename": "Sr.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 39.0,
+      "ecutrho": 262.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Sr.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Ta": {
+      "filename": "Ta.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 43.0,
+      "ecutrho": 264.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Ta.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Ti": {
+      "filename": "Ti.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 52.0,
+      "ecutrho": 575.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Ti.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Tl": {
+      "filename": "Tl.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 45.0,
+      "ecutrho": 210.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Tl.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "V": {
+      "filename": "V.pbe-spnl-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 48.0,
+      "ecutrho": 645.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/V.pbe-spnl-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "W": {
+      "filename": "W.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 50.0,
+      "ecutrho": 475.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/W.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Xe": {
+      "filename": "Xe.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 45.0,
+      "ecutrho": 212.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Xe.pbe-dn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Y": {
+      "filename": "Y.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 38.0,
+      "ecutrho": 257.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Y.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    },
+    "Zr": {
+      "filename": "Zr.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "pp_type": "PAW",
+      "ecutwfc": 46.0,
+      "ecutrho": 267.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBE/Zr.pbe-spn-kjpaw_psl.1.0.0.UPF",
+      "header_functional": "PBE"
+    }
+  },
+  "PBEsol": {
+    "Si": {
+      "filename": "Si.pbesol-n-rrkjus_psl.1.0.0.UPF",
+      "pp_type": "US",
+      "ecutwfc": 44.0,
+      "ecutrho": 175.0,
+      "filepath": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/pseudopotentials/PBEsol/Si.pbesol-n-rrkjus_psl.1.0.0.UPF",
+      "header_functional": "PBESOL"
+    }
+  }
+}

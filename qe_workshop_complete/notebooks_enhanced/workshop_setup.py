@@ -772,6 +772,83 @@ def download_pseudopotential(element: str, functional: str = 'PBE',
     return None
 
 
+def get_nc_pseudopotential(element: str, functional: str = 'PBE') -> Path:
+    """
+    Download a norm-conserving (NC) pseudopotential for an element.
+
+    NC PPs are required for meta-GGA calculations (TPSS, revTPSS) in QE
+    when compiled without libxc. This function searches the QE PP repository
+    for HGH, MT/FHI, or other NC-type pseudopotentials.
+
+    Parameters
+    ----------
+    element : str
+        Element symbol (e.g., 'Si', 'Fe')
+    functional : str
+        Base functional for the PP ('PBE' or 'LDA'). Meta-GGA calculations
+        typically use PBE-generated NC PPs with input_dft override.
+
+    Returns
+    -------
+    Path to downloaded NC PP file, or None if not found.
+    """
+    pp_dir = PSEUDO_DIR / f'{functional}_NC'
+    pp_dir.mkdir(parents=True, exist_ok=True)
+
+    # Check if already present locally
+    for f in pp_dir.iterdir():
+        if f.suffix.upper() == '.UPF':
+            finfo = _parse_pp_filename(f.name)
+            if finfo.get('element') == element:
+                return f
+
+    func_code = _FOLDER_TO_FILECODE.get(functional, functional.lower())
+
+    # NC PP naming patterns on QE PP site (ordered by preference)
+    nc_patterns = [
+        f'{element}.{func_code}-hgh.UPF',             # HGH (Goedecker) — widely available
+        f'{element}.{func_code}-mt_fhi.UPF',           # FHI/MT
+        f'{element}.{func_code}-mt_gipaw.UPF',         # GIPAW MT
+        f'{element}.{func_code}-tm-gipaw.UPF',         # GIPAW TM
+        f'{element}.{func_code}-tm.UPF',               # Troullier-Martins
+        f'{element}.{func_code}-bhs.UPF',              # BHS
+        f'{element}.{func_code}-vbc.UPF',              # Von Barth-Car
+        f'{element}.{func_code}-n-nc.UPF',             # PSlibrary NC
+    ]
+
+    print(f"  Searching for NC pseudopotential: {element} ({functional})...")
+    for candidate in nc_patterns:
+        url = PP_BASE_URL + candidate
+        if not _url_exists(url):
+            continue
+
+        filepath = pp_dir / candidate
+        _download_url(url, filepath)
+
+        # Verify it's actually NC
+        info = parse_upf_header(filepath)
+        if info.get('element') and info['element'] != element:
+            filepath.unlink()
+            continue
+
+        pp_type = info.get('pp_type', '')
+        if pp_type in ('NC', 'SL', ''):
+            print(f"  ✓ NC PP found: {candidate} (type: {pp_type or 'NC'})")
+            return filepath
+
+        # If it's US/PAW, it won't work for meta-GGA — skip it
+        if pp_type in ('US', 'PAW'):
+            filepath.unlink()
+            continue
+
+        # Accept if type is unclear (old-style PPs are often NC)
+        print(f"  ✓ NC PP found: {candidate} (type: {pp_type or 'NC'})")
+        return filepath
+
+    print(f"  ✗ No NC pseudopotential found for {element} ({functional})")
+    return None
+
+
 def setup_pseudopotentials(elements: List[str], functional: str = 'PBE',
                           verbose: bool = True) -> Dict[str, Path]:
     """
