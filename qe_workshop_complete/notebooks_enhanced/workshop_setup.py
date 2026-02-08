@@ -30,6 +30,7 @@ import re
 from pathlib import Path
 from typing import Dict, List, Tuple
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import json as _json
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -183,7 +184,7 @@ PSEUDO_DB = {
         'Mn': (65, 12, 'Mn.pbe-spn-kjpaw_psl.0.3.1.UPF'),
         'Fe': (90, 12, 'Fe.pbe-spn-kjpaw_psl.1.0.0.UPF'),
         'Co': (55, 8, 'Co.pbe-spn-kjpaw_psl.0.3.1.UPF'),
-        'Ni': (60, 8, 'Ni.pbe-n-kjpaw_psl.1.0.0.UPF'),
+        'Ni': (60, 8, 'Ni.pbe-spn-kjpaw_psl.1.0.0.UPF'),
         'Cu': (55, 8, 'Cu.pbe-dn-kjpaw_psl.1.0.0.UPF'),
         'Zn': (50, 8, 'Zn.pbe-dnl-kjpaw_psl.1.0.0.UPF'),
         'Ga': (70, 8, 'Ga.pbe-dn-kjpaw_psl.1.0.0.UPF'),
@@ -199,12 +200,11 @@ PSEUDO_DB = {
         'Zr': (40, 8, 'Zr.pbe-spn-kjpaw_psl.1.0.0.UPF'),
         'Nb': (50, 8, 'Nb.pbe-spn-kjpaw_psl.1.0.0.UPF'),
         'Mo': (50, 8, 'Mo.pbe-spn-kjpaw_psl.1.0.0.UPF'),
-        'Tc': (50, 8, 'Tc.pbe-spn-kjpaw_psl.0.3.1.UPF'),
         'Ru': (50, 8, 'Ru.pbe-spn-kjpaw_psl.1.0.0.UPF'),
         'Rh': (50, 8, 'Rh.pbe-spn-kjpaw_psl.1.0.0.UPF'),
         'Pd': (45, 8, 'Pd.pbe-spn-kjpaw_psl.1.0.0.UPF'),
         'Ag': (45, 8, 'Ag.pbe-n-kjpaw_psl.1.0.0.UPF'),
-        'Cd': (50, 8, 'Cd.pbe-dnl-kjpaw_psl.1.0.0.UPF'),
+        'Cd': (50, 8, 'Cd.pbe-n-kjpaw_psl.1.0.0.UPF'),
         'In': (50, 8, 'In.pbe-dn-kjpaw_psl.1.0.0.UPF'),
         'Sn': (60, 8, 'Sn.pbe-dn-kjpaw_psl.1.0.0.UPF'),
         'Sb': (55, 8, 'Sb.pbe-n-kjpaw_psl.1.0.0.UPF'),
@@ -221,58 +221,41 @@ PSEUDO_DB = {
         'W':  (45, 8, 'W.pbe-spn-kjpaw_psl.1.0.0.UPF'),
         'Re': (50, 8, 'Re.pbe-spn-kjpaw_psl.1.0.0.UPF'),
         'Os': (50, 8, 'Os.pbe-spn-kjpaw_psl.1.0.0.UPF'),
-        'Ir': (50, 8, 'Ir.pbe-n-kjpaw_psl.1.0.0.UPF'),
         'Pt': (50, 8, 'Pt.pbe-spfn-kjpaw_psl.1.0.0.UPF'),
         'Au': (50, 8, 'Au.pbe-spfn-kjpaw_psl.1.0.0.UPF'),
-        'Hg': (50, 8, 'Hg.pbe-dnl-kjpaw_psl.1.0.0.UPF'),
+        'Hg': (50, 8, 'Hg.pbe-n-kjpaw_psl.1.0.0.UPF'),
         'Tl': (50, 8, 'Tl.pbe-dn-kjpaw_psl.1.0.0.UPF'),
         'Pb': (40, 8, 'Pb.pbe-dn-kjpaw_psl.1.0.0.UPF'),
         'Bi': (50, 8, 'Bi.pbe-dn-kjpaw_psl.1.0.0.UPF'),
     },
     'LDA': {
-        # Period 1-2
+        # Verified against https://pseudopotentials.quantum-espresso.org/upf_files/
+        # PSlibrary LDA files (confirmed available)
         'H':  (60, 8, 'H.pz-rrkjus_psl.1.0.0.UPF'),
-        'Li': (40, 8, 'Li.pz-sl-rrkjus_psl.1.0.0.UPF'),
-        'Be': (50, 8, 'Be.pz-n-rrkjus_psl.1.0.0.UPF'),
-        'B':  (40, 8, 'B.pz-n-rrkjus_psl.1.0.0.UPF'),
-        'C':  (45, 8, 'C.pz-n-kjpaw_psl.1.0.0.UPF'),
-        'N':  (80, 8, 'N.pz-n-kjpaw_psl.1.0.0.UPF'),
-        'O':  (75, 8, 'O.pz-n-kjpaw_psl.1.0.0.UPF'),
-        'F':  (60, 8, 'F.pz-n-kjpaw_psl.1.0.0.UPF'),
-        # Period 3
-        'Na': (40, 8, 'Na.pz-spn-kjpaw_psl.1.0.0.UPF'),
-        'Mg': (35, 8, 'Mg.pz-spnl-kjpaw_psl.1.0.0.UPF'),
-        'Al': (30, 8, 'Al.pz-nl-kjpaw_psl.1.0.0.UPF'),
-        'Si': (40, 8, 'Si.pz-n-rrkjus_psl.1.0.0.UPF'),
-        'P':  (35, 8, 'P.pz-nl-kjpaw_psl.1.0.0.UPF'),
-        'S':  (40, 8, 'S.pz-nl-kjpaw_psl.1.0.0.UPF'),
-        'Cl': (45, 8, 'Cl.pz-nl-kjpaw_psl.1.0.0.UPF'),
-        # Period 4
         'K':  (50, 8, 'K.pz-spn-kjpaw_psl.1.0.0.UPF'),
         'Ca': (35, 8, 'Ca.pz-spn-kjpaw_psl.1.0.0.UPF'),
         'Ti': (60, 8, 'Ti.pz-spn-kjpaw_psl.1.0.0.UPF'),
         'V':  (55, 8, 'V.pz-spnl-kjpaw_psl.1.0.0.UPF'),
         'Cr': (60, 12, 'Cr.pz-spn-kjpaw_psl.1.0.0.UPF'),
-        'Mn': (65, 12, 'Mn.pz-spn-kjpaw_psl.1.0.0.UPF'),
-        'Fe': (90, 12, 'Fe.pz-spn-kjpaw_psl.1.0.0.UPF'),
         'Co': (55, 8, 'Co.pz-spn-kjpaw_psl.0.3.1.UPF'),
-        'Ni': (60, 8, 'Ni.pz-spn-kjpaw_psl.0.3.1.UPF'),
-        'Cu': (55, 8, 'Cu.pz-dn-kjpaw_psl.1.0.0.UPF'),
-        'Zn': (50, 8, 'Zn.pz-dn-kjpaw_psl.1.0.0.UPF'),
-        'Ga': (70, 8, 'Ga.pz-dn-kjpaw_psl.1.0.0.UPF'),
-        'Ge': (45, 8, 'Ge.pz-dn-kjpaw_psl.1.0.0.UPF'),
-        # Period 5
         'Sr': (40, 8, 'Sr.pz-spn-kjpaw_psl.1.0.0.UPF'),
         'Zr': (40, 8, 'Zr.pz-spn-kjpaw_psl.1.0.0.UPF'),
-        'Ag': (45, 8, 'Ag.pz-spn-kjpaw_psl.1.0.0.UPF'),
-        # Period 6
         'Ba': (35, 8, 'Ba.pz-spn-kjpaw_psl.1.0.0.UPF'),
-        'Au': (50, 8, 'Au.pz-spfn-kjpaw_psl.1.0.0.UPF'),
-        'Pb': (40, 8, 'Pb.pz-dn-kjpaw_psl.1.0.0.UPF'),
+        # Old-style LDA PPs (verified available, conservative cutoffs)
+        'C':  (40, 4, 'C.pz-vbc.UPF'),
+        'N':  (40, 4, 'N.pz-vbc.UPF'),
+        'O':  (50, 8, 'O.pz-mt.UPF'),
+        'Al': (25, 4, 'Al.pz-vbc.UPF'),
+        'Si': (30, 4, 'Si.pz-vbc.UPF'),
+        'Fe': (50, 8, 'Fe.pz-nd-rrkjus.UPF'),
+        'Ni': (50, 8, 'Ni.pz-nd-rrkjus.UPF'),
+        'Cu': (40, 8, 'Cu.pz-d-rrkjus.UPF'),
+        'Ge': (40, 4, 'Ge.pz-bhs.UPF'),
+        'Au': (40, 8, 'Au.pz-d-rrkjus.UPF'),
     },
     'PBEsol': {
         # Period 1-2
-        'H':  (60, 8, 'H.pbesol-rrkjus_psl.1.0.0.UPF'),
+        'H':  (60, 8, 'H.pbesol-kjpaw_psl.0.1.UPF'),
         'Li': (40, 8, 'Li.pbesol-sl-rrkjus_psl.1.0.0.UPF'),
         'Be': (50, 8, 'Be.pbesol-n-rrkjus_psl.1.0.0.UPF'),
         'B':  (40, 8, 'B.pbesol-n-rrkjus_psl.1.0.0.UPF'),
@@ -289,28 +272,24 @@ PSEUDO_DB = {
         'S':  (40, 8, 'S.pbesol-nl-kjpaw_psl.1.0.0.UPF'),
         'Cl': (45, 8, 'Cl.pbesol-nl-kjpaw_psl.1.0.0.UPF'),
         # Period 4
-        'K':  (50, 8, 'K.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
         'Ca': (35, 8, 'Ca.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
         'Ti': (60, 8, 'Ti.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
         'V':  (55, 8, 'V.pbesol-spnl-kjpaw_psl.1.0.0.UPF'),
         'Cr': (60, 12, 'Cr.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
-        'Mn': (65, 12, 'Mn.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
+        'Mn': (65, 12, 'Mn.pbesol-spn-kjpaw_psl.0.3.1.UPF'),
         'Fe': (90, 12, 'Fe.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
         'Co': (55, 8, 'Co.pbesol-spn-kjpaw_psl.0.3.1.UPF'),
-        'Ni': (60, 8, 'Ni.pbesol-spn-kjpaw_psl.0.3.1.UPF'),
+        'Ni': (60, 8, 'Ni.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
         'Cu': (55, 8, 'Cu.pbesol-dn-kjpaw_psl.1.0.0.UPF'),
-        'Zn': (50, 8, 'Zn.pbesol-dn-kjpaw_psl.1.0.0.UPF'),
+        'Zn': (50, 8, 'Zn.pbesol-dnl-kjpaw_psl.1.0.0.UPF'),
         'Ga': (70, 8, 'Ga.pbesol-dn-kjpaw_psl.1.0.0.UPF'),
         'Ge': (45, 8, 'Ge.pbesol-dn-kjpaw_psl.1.0.0.UPF'),
         # Period 5
         'Sr': (40, 8, 'Sr.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
-        'Y':  (45, 8, 'Y.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
         'Zr': (40, 8, 'Zr.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
-        'Ag': (45, 8, 'Ag.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
+        'Ag': (45, 8, 'Ag.pbesol-n-kjpaw_psl.1.0.0.UPF'),
         'Sn': (60, 8, 'Sn.pbesol-dn-kjpaw_psl.1.0.0.UPF'),
         # Period 6
-        'Ba': (35, 8, 'Ba.pbesol-spn-kjpaw_psl.1.0.0.UPF'),
-        'La': (55, 8, 'La.pbesol-spfn-kjpaw_psl.1.0.0.UPF'),
         'Pt': (50, 8, 'Pt.pbesol-spfn-kjpaw_psl.1.0.0.UPF'),
         'Au': (50, 8, 'Au.pbesol-spfn-kjpaw_psl.1.0.0.UPF'),
         'Pb': (40, 8, 'Pb.pbesol-dn-kjpaw_psl.1.0.0.UPF'),
@@ -320,11 +299,14 @@ PSEUDO_DB = {
 # Backward compatibility
 SSSP_EFFICIENCY = PSEUDO_DB['PBE']
 
-# Download URLs
+# Canonical download URL — ALL PPs served from same directory
+PP_BASE_URL = 'https://pseudopotentials.quantum-espresso.org/upf_files/'
+
+# Legacy alias (backward compat)
 PP_URLS = {
-    'PBE': "https://pseudopotentials.quantum-espresso.org/upf_files/",
-    'LDA': "https://pseudopotentials.quantum-espresso.org/upf_files/",
-    'PBEsol': "https://pseudopotentials.quantum-espresso.org/upf_files/",
+    'PBE': PP_BASE_URL,
+    'LDA': PP_BASE_URL,
+    'PBEsol': PP_BASE_URL,
 }
 
 # =============================================================================
@@ -411,14 +393,295 @@ def verify_qe_installation():
     return True
 
 # =============================================================================
-# PSEUDOPOTENTIAL DOWNLOAD FUNCTIONS
+# UPF HEADER PARSING — Extract metadata from downloaded PP files
 # =============================================================================
 
-def download_pseudopotential(element: str, functional: str = 'PBE', 
+# Map QE internal functional codes → standard names
+_QE_FUNCTIONAL_MAP = {
+    'SLA PW PBX PBC': 'PBE',
+    'SLA PW PBE PBE': 'PBE',
+    'SLA PZ NOGX NOGC': 'LDA',
+    'SLA PZ': 'LDA',
+    'PZ': 'LDA',
+    'SLA PW PSX PSC': 'PBEsol',
+    'SLA PW RPB PBC': 'revPBE',
+    'SLA PW B88 P86': 'BP86',
+    'SLA PW B88 LYP': 'BLYP',
+    'SLA PW PW91 PW91': 'PW91',
+    'SLA PW WC WC': 'WC',
+    'SLA+HF PW PBX PBC': 'PBE0',
+    'SLA+HF PW SE': 'HSE',
+    'SLA PW R861 K010': 'SCAN',
+}
+
+# Map filename functional codes → standard names
+_FILENAME_FUNCTIONAL_MAP = {
+    'pbe': 'PBE', 'pz': 'LDA', 'pbesol': 'PBEsol',
+    'pw91': 'PW91', 'blyp': 'BLYP', 'revpbe': 'revPBE',
+    'wc': 'WC', 'bp': 'BP86',
+    'rel-pbe': 'rel-PBE', 'rel-pz': 'rel-LDA', 'rel-pbesol': 'rel-PBEsol',
+}
+
+# Folder name → filename functional code mapping
+_FOLDER_TO_FILECODE = {
+    'PBE': 'pbe', 'LDA': 'pz', 'PBEsol': 'pbesol',
+    'PW91': 'pw91', 'BLYP': 'blyp', 'revPBE': 'revpbe',
+    'WC': 'wc', 'BP86': 'bp',
+}
+
+
+def parse_upf_header(filepath) -> dict:
+    """
+    Parse a UPF file header to extract element, functional, PP type, and cutoffs.
+
+    Works with UPF v1 and v2 formats. Returns a dict with keys:
+        element, functional, pp_type, ecutwfc, ecutrho, relativistic, filename
+    """
+    filepath = Path(filepath)
+    info = {
+        'element': None, 'functional': None, 'pp_type': None,
+        'ecutwfc': None, 'ecutrho': None, 'relativistic': False,
+        'filename': filepath.name,
+    }
+    # Read only the first 100 lines (header is always near the top)
+    lines = []
+    with open(filepath, 'r', errors='ignore') as f:
+        for i, line in enumerate(f):
+            if i > 120:
+                break
+            lines.append(line)
+    header_text = ''.join(lines)
+
+    # --- Element ---
+    m = re.search(r'[Ee]lement\s*[:=]\s*"?\s*([A-Z][a-z]?)\b', header_text)
+    if m:
+        info['element'] = m.group(1).strip()
+
+    # --- Functional ---
+    m = re.search(r'[Ff]unctional\s*[:=]\s*"?\s*(.+)', header_text)
+    if m:
+        raw = m.group(1).strip().strip('"').strip()
+        # Normalize whitespace
+        raw_norm = ' '.join(raw.split())
+        info['functional'] = _QE_FUNCTIONAL_MAP.get(raw_norm, raw_norm)
+
+    # --- PP type ---
+    m = re.search(r'[Pp]seudopotential\s+type\s*:\s*(\w+)', header_text)
+    if not m:
+        m = re.search(r'pseudo_type\s*=\s*"(\w+)"', header_text)
+    if m:
+        pt = m.group(1).upper()
+        if 'PAW' in pt:
+            info['pp_type'] = 'PAW'
+        elif pt in ('US', 'USPP'):
+            info['pp_type'] = 'US'
+        elif pt in ('NC', 'NCPP', 'NORM', 'SL'):
+            info['pp_type'] = 'NC'
+        else:
+            info['pp_type'] = pt
+
+    # --- Cutoffs ---
+    m = re.search(r'[Ss]uggested\s+minimum\s+cutoff\s+for\s+wavefunctions\s*:\s*([\d.]+)', header_text)
+    if m:
+        info['ecutwfc'] = float(m.group(1))
+    m = re.search(r'[Ss]uggested\s+minimum\s+cutoff\s+for\s+charge\s+density\s*:\s*([\d.]+)', header_text)
+    if m:
+        info['ecutrho'] = float(m.group(1))
+
+    # --- Relativistic ---
+    if 'scalar-relativistic' in header_text.lower() or 'scalar_relativistic' in header_text.lower():
+        info['relativistic'] = True
+
+    # Fallback: extract element from filename if not in header
+    if not info['element']:
+        m = re.match(r'([A-Z][a-z]?)\.', filepath.name)
+        if m:
+            info['element'] = m.group(1)
+
+    # Fallback: extract functional from filename
+    if not info['functional']:
+        for code, func in _FILENAME_FUNCTIONAL_MAP.items():
+            if f'.{code}-' in filepath.name.lower() or f'.{code}.' in filepath.name.lower():
+                info['functional'] = func
+                break
+
+    return info
+
+
+def _parse_pp_filename(filename: str) -> dict:
+    """
+    Extract metadata from a PP filename (fast, no I/O).
+    Pattern: Element.functional-config-type_library.version.UPF
+    """
+    info = {'element': None, 'functional': None, 'pp_type': None, 'library': None}
+    m = re.match(r'([A-Z][a-z]?)\.(.+)\.UPF$', filename, re.IGNORECASE)
+    if not m:
+        return info
+    info['element'] = m.group(1)
+    rest = m.group(2)
+
+    # Functional
+    for code, func in sorted(_FILENAME_FUNCTIONAL_MAP.items(), key=lambda x: -len(x[0])):
+        if rest.startswith(code + '-') or rest.startswith(code + '.'):
+            info['functional'] = func
+            break
+
+    # PP type from known keywords
+    rest_lower = rest.lower()
+    if 'kjpaw' in rest_lower:
+        info['pp_type'] = 'PAW'
+    elif 'rrkjus' in rest_lower:
+        info['pp_type'] = 'US'
+    elif 'van' in rest_lower:
+        info['pp_type'] = 'US'
+    elif 'hgh' in rest_lower or 'bhs' in rest_lower or 'vbc' in rest_lower or 'mt' in rest_lower:
+        info['pp_type'] = 'NC'
+
+    # Library
+    if '_psl.' in rest_lower:
+        info['library'] = 'pslibrary'
+
+    return info
+
+
+# =============================================================================
+# LOCAL PP MANIFEST — Auto-index of all downloaded pseudopotentials
+# =============================================================================
+
+_MANIFEST_PATH = PSEUDO_DIR / 'manifest.json'
+
+
+def _load_manifest() -> dict:
+    """Load the local PP manifest, or return empty structure."""
+    if _MANIFEST_PATH.exists():
+        with open(_MANIFEST_PATH) as f:
+            return _json.load(f)
+    return {}
+
+
+def _save_manifest(manifest: dict):
+    """Save manifest to disk."""
+    with open(_MANIFEST_PATH, 'w') as f:
+        _json.dump(manifest, f, indent=2, default=str)
+
+
+def build_pp_manifest(verbose: bool = False) -> dict:
+    """
+    Scan all local pseudopotential directories and build an index
+    from actual UPF file headers. This is the source of truth for
+    what PPs are locally available and their properties.
+
+    Returns: {functional: {element: {filename, ecutwfc, ecutrho, pp_type, filepath}}}
+    """
+    manifest = {}
+
+    for subdir in sorted(PSEUDO_DIR.iterdir()):
+        if not subdir.is_dir():
+            continue
+        func_name = subdir.name  # e.g., 'PBE', 'LDA', 'PBEsol'
+        if func_name.startswith('.'):
+            continue
+
+        entries = {}
+        upf_files = sorted(subdir.glob('*.UPF')) + sorted(subdir.glob('*.upf'))
+
+        for upf_path in upf_files:
+            info = parse_upf_header(upf_path)
+            elem = info.get('element')
+            if not elem:
+                continue
+
+            entry = {
+                'filename': upf_path.name,
+                'pp_type': info.get('pp_type'),
+                'ecutwfc': info.get('ecutwfc'),
+                'ecutrho': info.get('ecutrho'),
+                'filepath': str(upf_path),
+                'header_functional': info.get('functional'),
+            }
+
+            # If multiple PPs for same element, prefer PAW > US > NC
+            if elem in entries:
+                old_type = entries[elem].get('pp_type', '')
+                new_type = entry.get('pp_type', '')
+                type_rank = {'PAW': 3, 'US': 2, 'NC': 1}
+                if type_rank.get(new_type, 0) <= type_rank.get(old_type, 0):
+                    continue  # keep the existing (better) one
+
+            entries[elem] = entry
+
+        if entries:
+            manifest[func_name] = entries
+            if verbose:
+                print(f"  {func_name}: {len(entries)} elements indexed")
+
+    _save_manifest(manifest)
+    if verbose:
+        print(f"  Manifest saved: {_MANIFEST_PATH}")
+    return manifest
+
+
+# =============================================================================
+# AUTO-DISCOVERY — Try filename variations when PSEUDO_DB entry fails
+# =============================================================================
+
+# Common valence configurations used in PSlibrary naming
+_VALENCE_CONFIGS = ['n', 'dn', 'spn', 'spdn', 'spnl', 'dnl', 'nl', 'sl', 'spfn']
+_PP_TYPES = ['kjpaw_psl', 'rrkjus_psl']
+_VERSIONS = ['1.0.0', '0.3.1', '0.1']
+
+
+def _generate_candidate_filenames(element: str, functional: str) -> List[str]:
+    """
+    Generate candidate PP filenames for an element + functional combo.
+    Tries systematic naming variations used by PSlibrary.
+    """
+    func_code = _FOLDER_TO_FILECODE.get(functional, functional.lower())
+    candidates = []
+
+    # PSlibrary naming: Element.func-config-type_psl.version.UPF
+    for pp_type in _PP_TYPES:
+        for ver in _VERSIONS:
+            for cfg in _VALENCE_CONFIGS:
+                candidates.append(f"{element}.{func_code}-{cfg}-{pp_type}.{ver}.UPF")
+            # Also try without config (e.g., H.pbe-rrkjus_psl.1.0.0.UPF)
+            candidates.append(f"{element}.{func_code}-{pp_type}.{ver}.UPF")
+
+    # Old-style naming for LDA
+    if functional == 'LDA':
+        old_suffixes = ['vbc', 'hgh', 'bhs', 'mt', 'van_ak',
+                        'nd-rrkjus', 'd-rrkjus', 'n-rrkjus', 'sp-van_ak']
+        for suffix in old_suffixes:
+            candidates.append(f"{element}.pz-{suffix}.UPF")
+
+    return candidates
+
+
+def _try_download_url(url: str, dest: Path, timeout: int = 15) -> bool:
+    """Try to download a file. Returns True on success, False on failure."""
+    req = urllib.request.Request(url)
+    resp = urllib.request.urlopen(req, timeout=timeout)
+    with open(dest, 'wb') as f:
+        f.write(resp.read())
+    return True
+
+
+# =============================================================================
+# ROBUST DOWNLOAD — Multi-attempt with auto-discovery fallback
+# =============================================================================
+
+def download_pseudopotential(element: str, functional: str = 'PBE',
                              force: bool = False) -> Path:
     """
-    Download pseudopotential for an element.
-    
+    Download pseudopotential for an element with robust fallback.
+
+    Strategy:
+    1. Check if file already exists locally
+    2. Try the filename from PSEUDO_DB
+    3. Scan local directory for any matching UPF file
+    4. Try systematic filename variations against QE PP site
+    5. Update local manifest after download
+
     Parameters
     ----------
     element : str
@@ -427,38 +690,89 @@ def download_pseudopotential(element: str, functional: str = 'PBE',
         'PBE', 'LDA', or 'PBEsol'
     force : bool
         Re-download even if file exists
-    
+
     Returns
     -------
     Path to downloaded file
     """
-    if functional not in PSEUDO_DB:
-        raise ValueError(f"Functional '{functional}' not supported. Use: PBE, LDA, PBEsol")
-    
-    if element not in PSEUDO_DB[functional]:
-        raise ValueError(f"Element '{element}' not in {functional} database")
-    
-    _, _, filename = PSEUDO_DB[functional][element]
     pp_dir = PSEUDO_DIR / functional
-    filepath = pp_dir / filename
-    
-    if filepath.exists() and not force:
-        return filepath
-    
-    url = PP_URLS[functional] + filename
-    print(f"  Downloading {element} ({functional}): {filename}...", end=" ", flush=True)
-    
-    urllib.request.urlretrieve(url, filepath)
-    print("✓")
-    
-    return filepath
+    pp_dir.mkdir(parents=True, exist_ok=True)
+
+    # --- Step 1: Check if already present (via PSEUDO_DB or manifest) ---
+    if not force:
+        # Check PSEUDO_DB filename
+        if element in PSEUDO_DB.get(functional, {}):
+            _, _, filename = PSEUDO_DB[functional][element]
+            filepath = pp_dir / filename
+            if filepath.exists():
+                return filepath
+
+        # Check manifest
+        manifest = _load_manifest()
+        if functional in manifest and element in manifest[functional]:
+            fp = Path(manifest[functional][element]['filepath'])
+            if fp.exists():
+                return fp
+
+        # Scan local directory for any matching UPF
+        for f in pp_dir.iterdir():
+            if f.suffix.upper() == '.UPF':
+                finfo = _parse_pp_filename(f.name)
+                if finfo.get('element') == element:
+                    return f
+
+    # --- Step 2: Try PSEUDO_DB filename from QE PP site ---
+    if element in PSEUDO_DB.get(functional, {}):
+        _, _, filename = PSEUDO_DB[functional][element]
+        filepath = pp_dir / filename
+        url = PP_BASE_URL + filename
+        print(f"  Downloading {element} ({functional}): {filename}...", end=" ", flush=True)
+        downloaded = False
+        try:
+            _try_download_url(url, filepath)
+            print("✓")
+            downloaded = True
+        except Exception:
+            print("✗ (trying alternatives)")
+
+        if downloaded:
+            # Validate: parse header to confirm element matches
+            info = parse_upf_header(filepath)
+            if info.get('element') and info['element'] != element:
+                print(f"  ⚠ Warning: PP header says element={info['element']}, expected {element}")
+            return filepath
+
+    # --- Step 3: Auto-discovery — try filename variations ---
+    print(f"  Searching for {element} ({functional}) PP on QE repository...")
+    candidates = _generate_candidate_filenames(element, functional)
+    for candidate in candidates:
+        url = PP_BASE_URL + candidate
+        filepath = pp_dir / candidate
+        try:
+            _try_download_url(url, filepath)
+            # Validate element from header
+            info = parse_upf_header(filepath)
+            if info.get('element') and info['element'] != element:
+                filepath.unlink()
+                continue
+            print(f"  ✓ Found: {candidate}")
+            return filepath
+        except Exception:
+            continue
+
+    # --- Step 4: All attempts failed ---
+    avail_funcs = [f for f in PSEUDO_DB if element in PSEUDO_DB[f]]
+    msg = f"Could not find pseudopotential for {element} ({functional})."
+    if avail_funcs:
+        msg += f" Available in: {', '.join(avail_funcs)}"
+    raise FileNotFoundError(msg)
 
 
 def setup_pseudopotentials(elements: List[str], functional: str = 'PBE',
                           verbose: bool = True) -> Dict[str, Path]:
     """
-    Download all required pseudopotentials.
-    
+    Download all required pseudopotentials with robust fallback.
+
     Parameters
     ----------
     elements : list
@@ -467,7 +781,7 @@ def setup_pseudopotentials(elements: List[str], functional: str = 'PBE',
         'PBE', 'LDA', or 'PBEsol'
     verbose : bool
         Print status messages
-    
+
     Returns
     -------
     dict : {element: filepath}
@@ -476,83 +790,144 @@ def setup_pseudopotentials(elements: List[str], functional: str = 'PBE',
         print("=" * 60)
         print(f"PSEUDOPOTENTIAL SETUP - {functional}")
         print("=" * 60)
-    
+
+    pp_dir = PSEUDO_DIR / functional
+    pp_dir.mkdir(parents=True, exist_ok=True)
+
     result = {}
-    missing = []
-    
+    to_download = []
+
     for elem in elements:
-        if elem not in PSEUDO_DB.get(functional, {}):
-            print(f"  ⚠ Warning: {elem} not in {functional} database")
-            continue
-        
-        _, _, filename = PSEUDO_DB[functional][elem]
-        filepath = PSEUDO_DIR / functional / filename
-        
-        if filepath.exists():
-            if verbose:
-                print(f"  ✓ {elem}: {filename}")
-            result[elem] = filepath
-        else:
-            missing.append(elem)
-    
-    if missing:
+        # Check PSEUDO_DB first
+        if elem in PSEUDO_DB.get(functional, {}):
+            _, _, filename = PSEUDO_DB[functional][elem]
+            filepath = pp_dir / filename
+            if filepath.exists():
+                if verbose:
+                    print(f"  ✓ {elem}: {filename}")
+                result[elem] = filepath
+                continue
+
+        # Check local directory for any matching UPF
+        found_local = False
+        for f in pp_dir.iterdir():
+            if f.suffix.upper() == '.UPF':
+                finfo = _parse_pp_filename(f.name)
+                if finfo.get('element') == elem:
+                    if verbose:
+                        print(f"  ✓ {elem}: {f.name} (local)")
+                    result[elem] = f
+                    found_local = True
+                    break
+
+        if not found_local:
+            to_download.append(elem)
+
+    if to_download:
         if verbose:
-            print(f"\n  Downloading {len(missing)} missing pseudopotentials...")
-        for elem in missing:
-            result[elem] = download_pseudopotential(elem, functional)
-    
+            print(f"\n  Downloading {len(to_download)} pseudopotentials...")
+        for elem in to_download:
+            try:
+                filepath = download_pseudopotential(elem, functional, force=False)
+                result[elem] = filepath
+            except FileNotFoundError as e:
+                print(f"  ✗ {elem}: {e}")
+
+    # Rebuild manifest after any downloads
+    if to_download:
+        build_pp_manifest(verbose=False)
+
     if verbose:
         print("=" * 60)
-        print(f"Pseudopotentials ready in: {PSEUDO_DIR / functional}")
+        print(f"Pseudopotentials ready in: {pp_dir}")
         print("=" * 60)
-    
+
     return result
 
 
 def get_recommended_cutoffs(elements: List[str], functional: str = 'PBE') -> Tuple[float, float]:
     """
-    Get recommended ecutwfc and ecutrho.
-    
-    Returns maximum from SSSP database for the element set.
+    Get recommended ecutwfc and ecutrho for a set of elements.
+
+    Priority: UPF header values (from manifest) → PSEUDO_DB static values → defaults.
+    Returns the maximum cutoffs needed across all elements.
     """
     max_ecutwfc = 0
-    max_dual = 4
-    
-    db = PSEUDO_DB.get(functional, PSEUDO_DB['PBE'])
-    
+    max_ecutrho = 0
+
+    manifest = _load_manifest()
+    db = PSEUDO_DB.get(functional, PSEUDO_DB.get('PBE', {}))
+
     for elem in elements:
-        if elem in db:
-            ecutwfc, dual, _ = db[elem]
-            max_ecutwfc = max(max_ecutwfc, ecutwfc)
-            max_dual = max(max_dual, dual)
-        else:
+        ecutwfc, ecutrho = None, None
+
+        # Try manifest first (parsed from actual UPF headers)
+        if functional in manifest and elem in manifest[functional]:
+            entry = manifest[functional][elem]
+            ecutwfc = entry.get('ecutwfc') or None  # treat 0 as missing
+            ecutrho = entry.get('ecutrho') or None
+
+        # Fall back to PSEUDO_DB
+        if ecutwfc is None and elem in db:
+            wfc, dual, _ = db[elem]
+            ecutwfc = wfc
+            ecutrho = wfc * dual
+
+        # Fall back to safe defaults
+        if ecutwfc is None:
             print(f"⚠ {elem} not in database, using 60 Ry default")
-            max_ecutwfc = max(max_ecutwfc, 60)
-    
-    return max_ecutwfc, max_ecutwfc * max_dual
+            ecutwfc = 60
+            ecutrho = 480
+
+        if ecutrho is None:
+            ecutrho = ecutwfc * 8
+
+        max_ecutwfc = max(max_ecutwfc, ecutwfc)
+        max_ecutrho = max(max_ecutrho, ecutrho)
+
+    return max_ecutwfc, max_ecutrho
 
 
 def get_pseudopotential_filename(element: str, functional: str = 'PBE') -> str:
     """Get pseudopotential filename for an element."""
+    # Check manifest first
+    manifest = _load_manifest()
+    if functional in manifest and element in manifest[functional]:
+        return manifest[functional][element]['filename']
+
+    # Fall back to PSEUDO_DB
     if element in PSEUDO_DB.get(functional, {}):
         return PSEUDO_DB[functional][element][2]
-    raise ValueError(f"Element '{element}' not in {functional} database")
+
+    # Check local directory
+    pp_dir = PSEUDO_DIR / functional
+    if pp_dir.exists():
+        for f in pp_dir.iterdir():
+            if f.suffix.upper() == '.UPF':
+                finfo = _parse_pp_filename(f.name)
+                if finfo.get('element') == element:
+                    return f.name
+
+    raise ValueError(f"No pseudopotential found for {element} ({functional}). "
+                     f"Run setup_pseudopotentials(['{element}'], '{functional}') first.")
 
 
 def get_pseudo_dir(functional: str = 'PBE') -> Path:
     """Get the pseudopotential directory for a functional."""
-    return PSEUDO_DIR / functional
+    pp_dir = PSEUDO_DIR / functional
+    pp_dir.mkdir(parents=True, exist_ok=True)
+    return pp_dir
 
 
-def download_all_pseudopotentials(functionals: List[str] = None, 
+def download_all_pseudopotentials(functionals: List[str] = None,
                                    max_workers: int = 4,
                                    verbose: bool = True) -> Dict[str, Dict[str, Path]]:
     """
-    Download ALL pseudopotentials for workshop use.
-    
+    Download ALL pseudopotentials in PSEUDO_DB for workshop use.
+
     Run this ONCE at the start of the workshop to ensure all PPs are available.
-    Uses parallel downloads for speed.
-    
+    Uses parallel downloads for speed with automatic fallback on failures.
+
     Parameters
     ----------
     functionals : list
@@ -561,46 +936,41 @@ def download_all_pseudopotentials(functionals: List[str] = None,
         Number of parallel downloads
     verbose : bool
         Print progress
-    
+
     Returns
     -------
     dict : {functional: {element: filepath}}
-    
-    Example
-    -------
-    >>> download_all_pseudopotentials()  # Downloads everything
-    >>> download_all_pseudopotentials(['PBE'])  # Only PBE
     """
     if functionals is None:
         functionals = ['PBE', 'LDA', 'PBEsol']
-    
+
     results = {}
     total_downloaded = 0
     total_existing = 0
     failed = []
-    
+
     print("=" * 70)
     print("DOWNLOADING ALL PSEUDOPOTENTIALS FOR WORKSHOP")
     print("=" * 70)
     print(f"Functionals: {', '.join(functionals)}")
-    print(f"Target directory: {PSEUDO_DIR}")
+    print(f"Source: {PP_BASE_URL}")
+    print(f"Target: {PSEUDO_DIR}")
     print("=" * 70)
-    
+
     for functional in functionals:
         if functional not in PSEUDO_DB:
             print(f"⚠ Unknown functional: {functional}")
             continue
-        
+
         db = PSEUDO_DB[functional]
         pp_dir = PSEUDO_DIR / functional
         pp_dir.mkdir(exist_ok=True)
-        
+
         results[functional] = {}
         to_download = []
-        
+
         print(f"\n{functional} ({len(db)} elements):")
-        
-        # Check what's already there
+
         for elem, (_, _, filename) in db.items():
             filepath = pp_dir / filename
             if filepath.exists():
@@ -608,23 +978,22 @@ def download_all_pseudopotentials(functionals: List[str] = None,
                 total_existing += 1
             else:
                 to_download.append((elem, filename))
-        
+
         if not to_download:
             print(f"  ✓ All {len(db)} pseudopotentials already present")
             continue
-        
+
         print(f"  Existing: {len(db) - len(to_download)}, To download: {len(to_download)}")
-        
-        # Download missing ones in parallel
-        def download_one(item):
+
+        def _download_one(item):
             elem, filename = item
-            url = PP_URLS[functional] + filename
+            url = PP_BASE_URL + filename
             filepath = pp_dir / filename
-            urllib.request.urlretrieve(url, filepath)
+            _try_download_url(url, filepath)
             return elem, filepath
-        
+
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            futures = {executor.submit(download_one, item): item for item in to_download}
+            futures = {executor.submit(_download_one, item): item for item in to_download}
             for future in as_completed(futures):
                 elem, filename = futures[future]
                 try:
@@ -634,10 +1003,20 @@ def download_all_pseudopotentials(functionals: List[str] = None,
                     if verbose:
                         print(f"    ✓ {elem}: {filename}")
                 except Exception as e:
-                    failed.append((functional, elem, str(e)))
-                    print(f"    ✗ {elem}: {e}")
-    
-    # Summary
+                    # Try auto-discovery fallback
+                    try:
+                        filepath = download_pseudopotential(elem, functional)
+                        results[functional][elem] = filepath
+                        total_downloaded += 1
+                        if verbose:
+                            print(f"    ✓ {elem}: {filepath.name} (discovered)")
+                    except Exception:
+                        failed.append((functional, elem, str(e)))
+                        print(f"    ✗ {elem}: {e}")
+
+    # Build manifest from everything we have
+    build_pp_manifest(verbose=False)
+
     print("\n" + "=" * 70)
     print("DOWNLOAD SUMMARY")
     print("=" * 70)
@@ -647,32 +1026,107 @@ def download_all_pseudopotentials(functionals: List[str] = None,
         print(f"  Failed:           {len(failed)}")
         for func, elem, err in failed:
             print(f"    - {func}/{elem}: {err}")
+    else:
+        print(f"  Failed:           0")
     print("=" * 70)
-    
+
     return results
 
 
 def list_available_elements(functional: str = 'PBE') -> List[str]:
-    """List all elements available for a functional."""
-    return sorted(PSEUDO_DB.get(functional, {}).keys())
+    """List all elements available for a functional (DB + local files)."""
+    elements = set(PSEUDO_DB.get(functional, {}).keys())
+
+    # Also check local directory
+    pp_dir = PSEUDO_DIR / functional
+    if pp_dir.exists():
+        for f in pp_dir.iterdir():
+            if f.suffix.upper() == '.UPF':
+                finfo = _parse_pp_filename(f.name)
+                if finfo.get('element'):
+                    elements.add(finfo['element'])
+
+    return sorted(elements)
 
 
 def get_pp_info(element: str, functional: str = 'PBE') -> dict:
-    """Get pseudopotential info for an element."""
-    if element not in PSEUDO_DB.get(functional, {}):
-        return None
-    ecutwfc, dual, filename = PSEUDO_DB[functional][element]
-    filepath = PSEUDO_DIR / functional / filename
-    return {
+    """Get pseudopotential info for an element (manifest + PSEUDO_DB)."""
+    info = {
         'element': element,
         'functional': functional,
-        'filename': filename,
-        'ecutwfc': ecutwfc,
-        'ecutrho': ecutwfc * dual,
-        'dual': dual,
-        'filepath': filepath,
-        'exists': filepath.exists()
+        'filename': None,
+        'ecutwfc': None, 'ecutrho': None, 'dual': None,
+        'pp_type': None,
+        'filepath': None,
+        'exists': False,
+        'source': None,
     }
+
+    # Check manifest first (has UPF header data)
+    manifest = _load_manifest()
+    if functional in manifest and element in manifest[functional]:
+        entry = manifest[functional][element]
+        info['filename'] = entry.get('filename')
+        info['ecutwfc'] = entry.get('ecutwfc')
+        info['ecutrho'] = entry.get('ecutrho')
+        info['pp_type'] = entry.get('pp_type')
+        info['filepath'] = Path(entry['filepath'])
+        info['exists'] = info['filepath'].exists()
+        info['source'] = 'manifest'
+        if info['ecutwfc'] and info['ecutrho']:
+            info['dual'] = info['ecutrho'] / info['ecutwfc']
+        return info
+
+    # Fall back to PSEUDO_DB
+    if element in PSEUDO_DB.get(functional, {}):
+        ecutwfc, dual, filename = PSEUDO_DB[functional][element]
+        filepath = PSEUDO_DIR / functional / filename
+        info['filename'] = filename
+        info['ecutwfc'] = ecutwfc
+        info['ecutrho'] = ecutwfc * dual
+        info['dual'] = dual
+        info['filepath'] = filepath
+        info['exists'] = filepath.exists()
+        info['source'] = 'database'
+        return info
+
+    # Check local directory
+    pp_dir = PSEUDO_DIR / functional
+    if pp_dir.exists():
+        for f in pp_dir.iterdir():
+            if f.suffix.upper() == '.UPF':
+                finfo = _parse_pp_filename(f.name)
+                if finfo.get('element') == element:
+                    info['filename'] = f.name
+                    info['filepath'] = f
+                    info['exists'] = True
+                    info['pp_type'] = finfo.get('pp_type')
+                    info['source'] = 'local'
+                    return info
+
+    return info
+
+
+def scan_available_pseudopotentials(verbose: bool = True) -> dict:
+    """
+    Scan all local PP directories, parse UPF headers, rebuild manifest.
+    Useful after manually adding PP files.
+
+    Returns the manifest dict.
+    """
+    if verbose:
+        print("=" * 60)
+        print("SCANNING LOCAL PSEUDOPOTENTIALS")
+        print("=" * 60)
+    manifest = build_pp_manifest(verbose=verbose)
+    if verbose:
+        total = sum(len(v) for v in manifest.values())
+        print(f"\nTotal: {total} pseudopotentials across {len(manifest)} functionals")
+        for func, entries in sorted(manifest.items()):
+            elems = sorted(entries.keys())
+            print(f"  {func} ({len(elems)}): {', '.join(elems)}")
+        print("=" * 60)
+    return manifest
 
 
 # =============================================================================
