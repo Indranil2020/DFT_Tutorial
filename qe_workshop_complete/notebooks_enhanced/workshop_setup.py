@@ -26,6 +26,7 @@ import sys
 import subprocess
 import urllib.request
 import shutil
+import re
 from pathlib import Path
 from typing import Dict, List, Tuple
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -120,7 +121,7 @@ def _find_mpirun():
 # =============================================================================
 # MPI CONFIGURATION
 # =============================================================================
-NPROCS = int(os.environ.get('QE_NPROCS', '4'))
+NPROCS = int(os.environ.get('QE_NPROCS', (os.cpu_count()//2) or 1))
 MPI_COMMAND = os.environ.get('QE_MPI_COMMAND', _find_mpirun())
 PW_EXECUTABLE = os.environ.get('QE_PW_EXECUTABLE', _find_qe_executable())
 
@@ -398,9 +399,9 @@ def verify_qe_installation():
     else:
         print(f"  ⚠ MPI not found, will run serial")
     
-    # Try to get version
+    # # Try to get version
     result = subprocess.run([PW_EXECUTABLE, '--version'], 
-                           capture_output=True, text=True, timeout=10)
+                       capture_output=True, text=True, input="", timeout=10)
     if result.returncode == 0 or 'PWSCF' in result.stdout:
         version_line = [l for l in result.stdout.split('\n') if 'PWSCF' in l or 'v.' in l]
         if version_line:
