@@ -1,0 +1,31 @@
+{
+  "structure_optimization": {
+    "method": "EOS_Birch-Murnaghan",
+    "a0_angstrom": 5.47022545024216,
+    "a0_angstrom_err": 9.601793219070514e-06,
+    "V0_ang3": 40.921939142300026,
+    "E0_eV": -310.75215405711276,
+    "B0_GPa": 89.61622589484567,
+    "B0_GPa_err": 0.0369535708866799,
+    "B0_prime": 4.618902715697254
+  },
+  "stability": {
+    "thermodynamic": {
+      "stable": true,
+      "E_form_eV_per_atom": 0.0
+    },
+    "dynamic": {
+      "stable": true
+    },
+    "mechanical": {
+      "stable": true
+    },
+    "phonon_work_dir": "/home/niel/git/DFT_Tutorial/qe_workshop_complete/outputs/07_stability_Si_20260209_002318",
+    "elastic_constants_GPa": {
+      "C11": 153.1,
+      "C12": 56.7,
+      "C44": 98.9,
+      "B_voigt": 88.9
+    }
+  }
+}
