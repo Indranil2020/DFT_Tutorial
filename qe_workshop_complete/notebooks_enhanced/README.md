@@ -268,7 +268,7 @@ pip install numpy scipy matplotlib ase jupyter
 pip install pymatgen mp-api spglib seekpath
 
 # Download workshop materials
-git clone https://github.com/YOUR_REPO/qe-workshop.git
+git clone https://github.com/Indranil2020/DFT_Tutorial.git
 cd qe-workshop
 
 # Start Jupyter
@@ -446,7 +446,7 @@ if __name__ == '__main__':
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_REPO/qe-workshop.git
+git clone https://github.com/Indranil2020/DFT_Tutorial.git
 cd qe-workshop
 
 # Run the validation script
@@ -470,21 +470,6 @@ Work through notebooks 01-10 in order. Each notebook:
 **Do not skip convergence testing** (Notebooks 04-06). These establish the numerical foundation for all subsequent calculations.
 
 ---
-
-## For Instructors
-
-### Suggested 2-Hour Workshop Flow
-
-| Time | Activity | Notebooks |
-|------|----------|-----------|
-| 0:00 - 0:15 | Introduction and philosophy | 00_Overview (discuss) |
-| 0:15 - 0:30 | Database search demonstration | 01_Database (demo) |
-| 0:30 - 0:45 | Structure validation | 02_Validation (hands-on) |
-| 0:45 - 1:15 | Convergence testing | 04_Ecutwfc + 05_Kpoints (hands-on) |
-| 1:15 - 1:30 | Break | -- |
-| 1:30 - 1:50 | Lattice optimization | 06_Lattice (demo + discuss) |
-| 1:50 - 2:00 | Band structure preview | 08_Bands (demo) |
-| 2:00 | Wrap-up, Q&A, resources | -- |
 
 ### Priority Notebooks
 
@@ -524,82 +509,11 @@ If time is limited, prioritize these notebooks:
 
 ---
 
-## Validation
 
-### Running the Test Suite
-
-The workshop includes a comprehensive test script that validates all code examples:
-
-```bash
-cd /path/to/qe-workshop
-python test_all_code.py
-```
-
-### What Gets Tested
-
-| Test Suite | Description |
-|------------|-------------|
-| Input Generation | SCF input file creation with correct syntax |
-| Output Parsing | Energy, forces, stress, convergence extraction |
-| Birch-Murnaghan EOS | Equation of state fitting accuracy |
-| Band Parsing | Band structure file reading |
-| DOS Parsing | Density of states file reading |
-| Convergence Analysis | Energy difference calculations |
-| Unit Conversions | Bohr/Angstrom, Ry/eV, pressure units |
-| K-path Generation | High-symmetry path creation |
-
-### Expected Output
-
-```
-============================================================
-QUANTUM ESPRESSO WORKSHOP - CODE VALIDATION
-============================================================
-
-[Test 1] Input File Generation
-----------------------------------------
-  [OK] Basic input generation
-  [OK] K-points tuple handling
-  [OK] K-points integer handling
-
-[Test 2] Output Parsing
-----------------------------------------
-  [OK] Convergence detection
-  [OK] Energy parsing: -15.845500 Ry
-  [OK] Volume parsing: 270.0114 Bohr^3
-  [OK] Pressure parsing: -5.50 kbar
-  [OK] Band edges: VBM=6.25, CBM=6.85 eV
-
-... (additional tests)
-
-============================================================
-SUMMARY
-============================================================
-Total tests: 25
-Passed:      25
-Failed:      0
-Success rate: 100.0%
-============================================================
-
-ALL TESTS PASSED!
-```
-
----
 
 ## Citation and License
 
-### Citing This Workshop
 
-If you use these materials in your research or teaching, please cite:
-
-```bibtex
-@misc{qe_workshop_2024,
-  title = {Research-Grade DFT Workshop with Quantum ESPRESSO},
-  author = {Workshop Contributors},
-  year = {2024},
-  howpublished = {\url{https://github.com/YOUR_REPO/qe-workshop}},
-  note = {Structure Before Properties: A Rigorous Scientific Workflow}
-}
-```
 
 ### Citing Quantum ESPRESSO
 
@@ -647,8 +561,8 @@ We only ask that you:
 
 Found a bug, typo, or error? Please report it!
 
-1. **GitHub Issues** (preferred): [github.com/YOUR_REPO/qe-workshop/issues](https://github.com/YOUR_REPO/qe-workshop/issues)
-2. **Email**: your.email@institution.edu
+1. **GitHub Issues** (preferred): [github.com/Indranil2020/DFT_Tutorial/issues](https://github.com/Indranil2020/DFT_Tutorial/issues)
+2. **Email**:  
 
 When reporting issues, please include:
 - Which notebook and cell number
@@ -685,11 +599,6 @@ This workshop builds on the work of many contributors to the computational mater
 
 ---
 
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | 2024-XX-XX | Initial release |
 
 ---
 
