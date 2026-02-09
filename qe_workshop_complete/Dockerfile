@@ -34,6 +34,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfftw3-dev \
     libscalapack-mpi-dev \
     libsymspg-dev\
+    autoconf \
+    automake \
+    libtool \
+    libtool-bin \
+    libltdl-dev \
     # Python
     python3 \
     python3-pip \
@@ -57,6 +62,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN wget -qO- https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-linux-x86_64.tar.gz | \
     tar --strip-components=1 -xz -C /usr/local
 # =============================================================================
+# Build libxc from source
+# =============================================================================
+ENV LIBXC_VERSION=6.2.2
+ENV LIBXC_ROOT=/usr/local
+
+RUN cd /tmp && \
+    wget https://gitlab.com/libxc/libxc/-/archive/${LIBXC_VERSION}/libxc-${LIBXC_VERSION}.tar.gz && \
+    tar xzf libxc-${LIBXC_VERSION}.tar.gz && \
+    cd libxc-${LIBXC_VERSION} && \
+    autoreconf -i && \
+    ./configure --prefix=${LIBXC_ROOT} --enable-shared --enable-static && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig && \
+    rm -rf /tmp/libxc-*
+
+# =============================================================================
+
+# =============================================================================
 # Compile Quantum ESPRESSO 7.5 from source
 # =============================================================================
 ENV QE_VERSION=7.5
@@ -66,9 +90,19 @@ RUN cd /tmp && \
     wget https://github.com/QEF/q-e/archive/qe-${QE_VERSION}.tar.gz && \
     tar xzf qe-${QE_VERSION}.tar.gz && \
     cd q-e-qe-${QE_VERSION} && \
-    ./configure --enable-parallel --with-scalapack && \
+    ./configure \
+        --prefix=${QE_DIR} \
+        --enable-parallel \
+        --with-scalapack=yes \
+        --with-libxc=yes \
+        --with-libxc-prefix=${LIBXC_ROOT} \
+        FC=mpif90 \
+        CC=gcc \
+        FFLAGS="-O2 -D_FORTIFY_SOURCE=2 -I${LIBXC_ROOT}/include -fallow-argument-mismatch" \
+        CFLAGS="-O2 -D_FORTIFY_SOURCE=2 -I${LIBXC_ROOT}/include" && \ 
     make -j$(nproc) pw pp ph && \
-    mkdir -p ${QE_DIR}/bin && \
+    make install && \
+    ldconfig && \
     cp bin/* ${QE_DIR}/bin/ && \
     cd / && rm -rf /tmp/q-e-* /tmp/qe-*.tar.gz
 
