@@ -10,7 +10,7 @@
     nat = 2
     ntyp = 1
     ecutwfc = 40
-    ecutrho = 320
+    ecutrho = 175.0
 /
 &ELECTRONS
     conv_thr = 1.0e-6
